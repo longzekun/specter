@@ -9,10 +9,49 @@ import (
 	"crypto/x509/pkix"
 	"encoding/binary"
 	"encoding/pem"
+	"errors"
 	"math/big"
 	"net"
+	"os"
 	"time"
+
+	"github.com/longzekun/specter/server/config"
+	"github.com/longzekun/specter/server/db"
+	"github.com/longzekun/specter/server/db/models"
 )
+
+const (
+	ECCKey = "ecc"
+)
+
+func init() {
+	certsDir := config.GetServerConfig().CertsDir
+	if certsDir == "" {
+		panic("certsDir is empty")
+	}
+	err := os.MkdirAll(certsDir, 0755)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func saveCertifateToDB(caType, keyType, commonName string, certPEM, keyPEM []byte) error {
+	if keyType != ECCKey {
+		return errors.New("only ECC key is supported")
+	}
+
+	certModel := models.Certificate{
+		CommonName:     commonName,
+		CAType:         caType,
+		KeyType:        keyType,
+		CertificatePEM: string(certPEM),
+		PrivateKeyPEM:  string(keyPEM),
+	}
+
+	dbSession := db.Session()
+	result := dbSession.Create(&certModel)
+	return result.Error
+}
 
 func GenerateEccCertificate(caType string, commonName string, isCA bool, isClient bool, isOperator bool) ([]byte, []byte, error) {
 	var curves []elliptic.Curve
@@ -77,10 +116,20 @@ func GenerateEccCertificate(caType string, commonName string, isCA bool, isClien
 		}
 	}
 
-	template.IsCA = isCA
-	template.KeyUsage |= x509.KeyUsageCertSign
+	var certErr error
+	var derBytes []byte
+	if isCA {
+		template.IsCA = isCA
+		template.KeyUsage |= x509.KeyUsageCertSign
+		derBytes, certErr = x509.CreateCertificate(rand.Reader, &template, &template, &privateKey.PublicKey, privateKey)
+	} else {
+		caCert, caKey, err := GetCertificateAuthority(caType)
+		if err != nil {
+			panic(err)
+		}
+		derBytes, certErr = x509.CreateCertificate(rand.Reader, &template, caCert, &privateKey.PublicKey, caKey)
+	}
 
-	derBytes, certErr := x509.CreateCertificate(rand.Reader, &template, &template, &privateKey.PublicKey, privateKey)
 	if certErr != nil {
 		return nil, nil, certErr
 	}

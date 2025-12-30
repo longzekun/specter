@@ -23,9 +23,11 @@ func GetServerConfigPath() string {
 }
 
 type ServerConfig struct {
-	LogFilename string `json:"log_filename"`
-	TmpDir      string `json:"tmp_dir"`
-	RunMode     string `json:"run_mode"`
+	LogFilename    string         `json:"log_filename"`
+	TmpDir         string         `json:"tmp_dir"`
+	CertsDir       string         `json:"certs_dir"`
+	RunMode        string         `json:"run_mode"`
+	DatabaseConfig DatabaseConfig `json:"database_config"`
 }
 
 func (c *ServerConfig) Save() error {
@@ -73,7 +75,14 @@ func GetServerConfig() *ServerConfig {
 func getDefaultServerConfig() *ServerConfig {
 	return &ServerConfig{
 		LogFilename: filepath.Join(assets.GetRootAppDir(), "log", LogFilename),
+		CertsDir:    filepath.Join(assets.GetRootAppDir(), "certs"),
 		TmpDir:      filepath.Join(assets.GetRootAppDir(), "tmp"),
 		RunMode:     "DEBUG",
+		DatabaseConfig: DatabaseConfig{
+			Dialect:      Sqlite,
+			MaxIdleConns: 10,
+			MaxOpenConns: 100,
+			LogLevel:     "warn",
+		},
 	}
 }

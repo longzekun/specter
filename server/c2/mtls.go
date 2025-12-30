@@ -13,7 +13,8 @@ import (
 )
 
 func StartMutualListener(host string, port uint16) (net.Listener, error) {
-	certPem, keyPem, err := certs.GenerateEccCertificate("mtls-server", host, true, false, true)
+
+	certPem, keyPem, err := certs.GenerateEccCertificate(certs.MtlsServerType, host, true, false, true)
 	if err != nil {
 		return nil, err
 	}
