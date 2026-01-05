@@ -1,3 +1,6 @@
 .idea
 server/server
 server/.specter
+specter
+.specter
+specter-server
