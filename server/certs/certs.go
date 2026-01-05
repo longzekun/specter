@@ -35,7 +35,7 @@ func init() {
 	}
 }
 
-func saveCertifateToDB(caType, keyType, commonName string, certPEM, keyPEM []byte) error {
+func saveCertificateToDB(caType, keyType, commonName string, certPEM, keyPEM []byte) error {
 	if keyType != ECCKey {
 		return errors.New("only ECC key is supported")
 	}
@@ -51,6 +51,26 @@ func saveCertifateToDB(caType, keyType, commonName string, certPEM, keyPEM []byt
 	dbSession := db.Session()
 	result := dbSession.Create(&certModel)
 	return result.Error
+}
+
+func GetCertificateFromDB(caType, keyType, commonName string) ([]byte, []byte, error) {
+	if keyType != ECCKey {
+		return nil, nil, errors.New("only ECC key is supported")
+	}
+
+	certModel := models.Certificate{}
+
+	result := db.Session().Where(&models.Certificate{
+		CAType:     caType,
+		KeyType:    keyType,
+		CommonName: commonName,
+	}).First(&certModel)
+
+	if result.Error != nil {
+		return nil, nil, result.Error
+	}
+
+	return []byte(certModel.CertificatePEM), []byte(certModel.PrivateKeyPEM), nil
 }
 
 func GenerateEccCertificate(caType string, commonName string, isCA bool, isClient bool, isOperator bool) ([]byte, []byte, error) {
@@ -138,8 +158,8 @@ func GenerateEccCertificate(caType string, commonName string, isCA bool, isClien
 	pem.Encode(certOut, &pem.Block{Type: "CERTIFICATE", Bytes: derBytes})
 
 	keyOut := bytes.NewBuffer([]byte{})
-	b, _ := x509.MarshalECPrivateKey(privateKey)
-	pem.Encode(keyOut, &pem.Block{Type: "EC PRIVATE KEY", Bytes: b})
+	b, _ := x509.MarshalPKCS8PrivateKey(privateKey)
+	pem.Encode(keyOut, &pem.Block{Type: "PRIVATE KEY", Bytes: b})
 
 	return certOut.Bytes(), keyOut.Bytes(), nil
 }

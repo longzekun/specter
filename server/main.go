@@ -12,7 +12,6 @@ import (
 
 func main() {
 	log.Init()
-
 	certs.SetupCAs()
 
 	db.Session()

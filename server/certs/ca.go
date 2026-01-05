@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	MtlsServerType = "mtls-server"
-	MtlsImplant    = "mtls-implant"
+	MtlsServerType  = "mtls-server"
+	MtlsImplantType = "mtls-implant"
 )
 
 func getCertDir() string {
@@ -30,7 +30,7 @@ func SetupCAs() {
 	//	mtls-server CA
 	GenerateCertificateAuthority(MtlsServerType, "")
 	//	mtls-implant CA
-	GenerateCertificateAuthority(MtlsImplant, "")
+	GenerateCertificateAuthority(MtlsImplantType, "")
 }
 
 func GenerateCertificateAuthority(CAType string, commonName string) (*x509.Certificate, *ecdsa.PrivateKey) {
@@ -71,9 +71,14 @@ func GetCertificateAuthority(CAType string) (*x509.Certificate, *ecdsa.PrivateKe
 	if keyBlock == nil {
 		return nil, nil, err
 	}
-	key, err := x509.ParseECPrivateKey(keyBlock.Bytes)
+	parsedKey, err := x509.ParsePKCS8PrivateKey(keyBlock.Bytes)
 	if err != nil {
 		return nil, nil, err
+	}
+
+	key, ok := parsedKey.(*ecdsa.PrivateKey)
+	if !ok {
+		return nil, nil, fmt.Errorf("key is not ECDSA")
 	}
 
 	return cert, key, nil
