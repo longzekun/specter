@@ -22,13 +22,14 @@ type ImplantConnection struct {
 
 func NewImplantConnection(transport string, remoteAddress string) *ImplantConnection {
 	return &ImplantConnection{
-		ID:            generateImplantConnectionID(),
-		Send:          make(chan *specterpb.Envelope),
-		RespMutex:     &sync.Mutex{},
-		Resp:          make(map[int64]chan *specterpb.Envelope),
-		Transport:     transport,
-		RemoteAddress: remoteAddress,
-		CleanUp:       func() {},
+		ID:                   generateImplantConnectionID(),
+		Send:                 make(chan *specterpb.Envelope),
+		RespMutex:            &sync.Mutex{},
+		Resp:                 make(map[int64]chan *specterpb.Envelope),
+		Transport:            transport,
+		RemoteAddress:        remoteAddress,
+		LastMessageTimeMutex: &sync.Mutex{},
+		CleanUp:              func() {},
 	}
 }
 
