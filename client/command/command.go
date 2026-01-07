@@ -1,7 +1,7 @@
 package command
 
 import (
-	client "github.com/longzekun/specter/server/console"
+	client "github.com/longzekun/specter/client/console"
 	"github.com/spf13/cobra"
 )
 

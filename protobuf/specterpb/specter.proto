@@ -7,3 +7,17 @@ message Envelope {
   uint32 Type = 2;
   bytes Data = 3;
 }
+
+message MsgRegister {
+  string Name = 1;
+  string Hostname = 2;
+  string UUID = 3;
+  string Username = 4;
+  string UID = 5;
+  string GID = 6;
+  string OS = 7;
+  string Arch = 8;
+  string PID = 9;
+  string Filename = 10;
+  string Version = 11;
+}

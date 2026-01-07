@@ -124,6 +124,7 @@ func sendEnvelopeToImplant(conn net.Conn, envelope *specterpb.Envelope) error {
 	dataLengthBefore := new(bytes.Buffer)
 	binary.Write(dataLengthBefore, binary.LittleEndian, uint32(len(data)))
 	conn.Write(dataLengthBefore.Bytes())
+	zap.S().Debugf("Sending envelope to implant: %v", data)
 	conn.Write(data)
 	return nil
 }

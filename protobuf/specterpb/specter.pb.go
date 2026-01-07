@@ -81,6 +81,130 @@ func (x *Envelope) GetData() []byte {
 	return nil
 }
 
+type MsgRegister struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=Name,proto3" json:"Name,omitempty"`
+	Hostname      string                 `protobuf:"bytes,2,opt,name=Hostname,proto3" json:"Hostname,omitempty"`
+	UUID          string                 `protobuf:"bytes,3,opt,name=UUID,proto3" json:"UUID,omitempty"`
+	Username      string                 `protobuf:"bytes,4,opt,name=Username,proto3" json:"Username,omitempty"`
+	UID           string                 `protobuf:"bytes,5,opt,name=UID,proto3" json:"UID,omitempty"`
+	GID           string                 `protobuf:"bytes,6,opt,name=GID,proto3" json:"GID,omitempty"`
+	OS            string                 `protobuf:"bytes,7,opt,name=OS,proto3" json:"OS,omitempty"`
+	Arch          string                 `protobuf:"bytes,8,opt,name=Arch,proto3" json:"Arch,omitempty"`
+	PID           string                 `protobuf:"bytes,9,opt,name=PID,proto3" json:"PID,omitempty"`
+	Filename      string                 `protobuf:"bytes,10,opt,name=Filename,proto3" json:"Filename,omitempty"`
+	Version       string                 `protobuf:"bytes,11,opt,name=Version,proto3" json:"Version,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MsgRegister) Reset() {
+	*x = MsgRegister{}
+	mi := &file_specter_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MsgRegister) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MsgRegister) ProtoMessage() {}
+
+func (x *MsgRegister) ProtoReflect() protoreflect.Message {
+	mi := &file_specter_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MsgRegister.ProtoReflect.Descriptor instead.
+func (*MsgRegister) Descriptor() ([]byte, []int) {
+	return file_specter_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *MsgRegister) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetHostname() string {
+	if x != nil {
+		return x.Hostname
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetUUID() string {
+	if x != nil {
+		return x.UUID
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetUID() string {
+	if x != nil {
+		return x.UID
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetGID() string {
+	if x != nil {
+		return x.GID
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetOS() string {
+	if x != nil {
+		return x.OS
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetArch() string {
+	if x != nil {
+		return x.Arch
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetPID() string {
+	if x != nil {
+		return x.PID
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetFilename() string {
+	if x != nil {
+		return x.Filename
+	}
+	return ""
+}
+
+func (x *MsgRegister) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
 var File_specter_proto protoreflect.FileDescriptor
 
 const file_specter_proto_rawDesc = "" +
@@ -89,7 +213,20 @@ const file_specter_proto_rawDesc = "" +
 	"\bEnvelope\x12\x0e\n" +
 	"\x02ID\x18\x01 \x01(\x03R\x02ID\x12\x12\n" +
 	"\x04Type\x18\x02 \x01(\rR\x04Type\x12\x12\n" +
-	"\x04Data\x18\x03 \x01(\fR\x04DataB1Z/github.com/longzekun/specter/protobuf/specterpbb\x06proto3"
+	"\x04Data\x18\x03 \x01(\fR\x04Data\"\xfd\x01\n" +
+	"\vMsgRegister\x12\x12\n" +
+	"\x04Name\x18\x01 \x01(\tR\x04Name\x12\x1a\n" +
+	"\bHostname\x18\x02 \x01(\tR\bHostname\x12\x12\n" +
+	"\x04UUID\x18\x03 \x01(\tR\x04UUID\x12\x1a\n" +
+	"\bUsername\x18\x04 \x01(\tR\bUsername\x12\x10\n" +
+	"\x03UID\x18\x05 \x01(\tR\x03UID\x12\x10\n" +
+	"\x03GID\x18\x06 \x01(\tR\x03GID\x12\x0e\n" +
+	"\x02OS\x18\a \x01(\tR\x02OS\x12\x12\n" +
+	"\x04Arch\x18\b \x01(\tR\x04Arch\x12\x10\n" +
+	"\x03PID\x18\t \x01(\tR\x03PID\x12\x1a\n" +
+	"\bFilename\x18\n" +
+	" \x01(\tR\bFilename\x12\x18\n" +
+	"\aVersion\x18\v \x01(\tR\aVersionB1Z/github.com/longzekun/specter/protobuf/specterpbb\x06proto3"
 
 var (
 	file_specter_proto_rawDescOnce sync.Once
@@ -103,9 +240,10 @@ func file_specter_proto_rawDescGZIP() []byte {
 	return file_specter_proto_rawDescData
 }
 
-var file_specter_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_specter_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_specter_proto_goTypes = []any{
-	(*Envelope)(nil), // 0: specterpb.Envelope
+	(*Envelope)(nil),    // 0: specterpb.Envelope
+	(*MsgRegister)(nil), // 1: specterpb.MsgRegister
 }
 var file_specter_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -126,7 +264,7 @@ func file_specter_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_specter_proto_rawDesc), len(file_specter_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

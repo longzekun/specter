@@ -4,3 +4,5 @@ server/.specter
 specter
 .specter
 specter-server
+specter-client
+.client

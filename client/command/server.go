@@ -1,9 +1,9 @@
 package command
 
 import (
-	"github.com/longzekun/specter/server/command/exit"
-	"github.com/longzekun/specter/server/command/jobs"
-	client "github.com/longzekun/specter/server/console"
+	"github.com/longzekun/specter/client/command/exit"
+	"github.com/longzekun/specter/client/command/jobs"
+	client "github.com/longzekun/specter/client/console"
 	"github.com/longzekun/specter/server/constants"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"

@@ -7,13 +7,13 @@ import (
 	"github.com/longzekun/specter/server/core"
 )
 
-func StartMTLSListenerJob(host string, port uint32) {
+func StartMTLSListenerJob(host string, port uint32) (*core.Job, error) {
 	bind := fmt.Sprintf("%s:%d", host, port)
 
 	//	开始监听
 	ln, err := StartMutualListener(host, uint16(port))
 	if err != nil {
-		return
+		return nil, err
 	}
 
 	job := &core.Job{
@@ -35,4 +35,6 @@ func StartMTLSListenerJob(host string, port uint32) {
 	}()
 
 	core.Jobs.Add(job)
+
+	return job, nil
 }

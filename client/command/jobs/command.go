@@ -1,9 +1,9 @@
 package jobs
 
 import (
-	"github.com/longzekun/specter/server/command/flags"
-	"github.com/longzekun/specter/server/command/generate"
-	"github.com/longzekun/specter/server/console"
+	"github.com/longzekun/specter/client/command/flags"
+	"github.com/longzekun/specter/client/command/generate"
+	"github.com/longzekun/specter/client/console"
 	"github.com/longzekun/specter/server/constants"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"

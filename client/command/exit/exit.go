@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/longzekun/specter/server/console"
+	"github.com/longzekun/specter/client/console"
 	"github.com/longzekun/specter/server/constants"
-
 	"github.com/spf13/cobra"
 )
 

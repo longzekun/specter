@@ -1,11 +1,6 @@
 package constants
 
 const (
-	ServerMenu  = ""
-	ImplantMenu = "implant"
-)
-
-const (
 	GenericHelpGroup = "Generic"
 	NetworkHelpGroup = "Network"
 
