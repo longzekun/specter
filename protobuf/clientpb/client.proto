@@ -13,3 +13,7 @@ message ListenerJob {
   uint32 JobID = 3;
   MTLSListenerReq MTLSConf = 4;
 }
+
+message Event {
+  uint32 EventType = 1;
+}

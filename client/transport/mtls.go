@@ -2,8 +2,10 @@ package transport
 
 import (
 	"context"
+	"fmt"
 	"time"
 
+	"github.com/longzekun/specter/client/config"
 	"github.com/longzekun/specter/protobuf/rpcpb"
 	"google.golang.org/grpc"
 )
@@ -18,6 +20,8 @@ const (
 )
 
 func MtlsConnect() (rpcpb.SpecterRPCClient, *grpc.ClientConn, error) {
+	clientConfig := config.GetServerConfig()
+	//	use mtls connect to server,generate mtls config
 	options := []grpc.DialOption{
 		grpc.WithInsecure(),
 		grpc.WithBlock(),
@@ -27,7 +31,7 @@ func MtlsConnect() (rpcpb.SpecterRPCClient, *grpc.ClientConn, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), defaultTimeout)
 	defer cancel()
 
-	connection, err := grpc.DialContext(ctx, "127.0.0.1:7777", options...)
+	connection, err := grpc.DialContext(ctx, fmt.Sprintf("%s:%d", clientConfig.ServerHost, clientConfig.ServerPort), options...)
 	if err != nil {
 		return nil, nil, err
 	}

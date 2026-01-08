@@ -1,0 +1,5 @@
+syntax = "proto3";
+package commonpb;
+option go_package = "github.com/longzekun/specter/protobuf/commonpb";
+
+message Empty {}

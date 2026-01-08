@@ -25,6 +25,8 @@ func GetServerConfigPath() string {
 type ServerConfig struct {
 	LogFilename string `json:"log_filename"`
 	TmpDir      string `json:"tmp_dir"`
+	ServerHost  string `json:"server_host"`
+	ServerPort  int    `json:"server_port"`
 	CertsDir    string `json:"certs_dir"`
 	RunMode     string `json:"run_mode"`
 }
@@ -77,5 +79,7 @@ func getDefaultServerConfig() *ServerConfig {
 		CertsDir:    filepath.Join(assets.GetRootAppDir(), "certs"),
 		TmpDir:      filepath.Join(assets.GetRootAppDir(), "tmp"),
 		RunMode:     "DEBUG",
+		ServerHost:  "127.0.0.1",
+		ServerPort:  7777,
 	}
 }

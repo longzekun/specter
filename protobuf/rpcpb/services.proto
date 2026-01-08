@@ -2,9 +2,13 @@ syntax = "proto3";
 package rpcpb;
 option go_package = "github.com/longzekun/specter/protobuf/rpcpb";
 
+import "commonpb/common.proto";
 import "clientpb/client.proto";
+
 
 service SpecterRPC{
   //  **********listener************
   rpc StartMTLSListener(clientpb.MTLSListenerReq) returns (clientpb.ListenerJob);
+
+  rpc Events(commonpb.Empty) returns (stream clientpb.Event);
 }

@@ -2,11 +2,14 @@ package console
 
 import (
 	"bufio"
+	"context"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
 	"github.com/longzekun/specter/client/constants"
+	"github.com/longzekun/specter/protobuf/commonpb"
 	"github.com/longzekun/specter/protobuf/rpcpb"
 	"github.com/reeflective/console"
 	"github.com/reeflective/readline"
@@ -15,6 +18,7 @@ import (
 type SpecterClient struct {
 	Console *console.Console
 	RPC     rpcpb.SpecterRPCClient
+	printf  func(format string, args ...any) (int, error)
 }
 
 func NewConsole(isServer bool) *SpecterClient {
@@ -54,6 +58,8 @@ func (c *SpecterClient) exitConsole(_ *console.Console) {
 func StartClient(con *SpecterClient, rpc rpcpb.SpecterRPCClient, serverCommands console.Commands, implantCommands console.Commands) error {
 	con.RPC = rpc
 
+	con.printf = fmt.Printf
+
 	if serverCommands != nil {
 		server := con.Console.Menu(constants.ServerMenu)
 		server.SetCommands(serverCommands)
@@ -65,4 +71,20 @@ func StartClient(con *SpecterClient, rpc rpcpb.SpecterRPCClient, serverCommands 
 	}
 
 	return con.Console.Start()
+}
+
+func (c *SpecterClient) StartEventLoop() {
+	eventStream, err := c.RPC.Events(context.Background(), &commonpb.Empty{})
+	if err != nil {
+		return
+	}
+
+	for {
+		event, err := eventStream.Recv()
+		if err == io.EOF || event == nil {
+			return
+		}
+
+		//	deal event
+	}
 }

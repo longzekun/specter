@@ -141,6 +141,50 @@ func (x *ListenerJob) GetMTLSConf() *MTLSListenerReq {
 	return nil
 }
 
+type Event struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EventType     uint32                 `protobuf:"varint,1,opt,name=EventType,proto3" json:"EventType,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Event) Reset() {
+	*x = Event{}
+	mi := &file_clientpb_client_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Event) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Event) ProtoMessage() {}
+
+func (x *Event) ProtoReflect() protoreflect.Message {
+	mi := &file_clientpb_client_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Event.ProtoReflect.Descriptor instead.
+func (*Event) Descriptor() ([]byte, []int) {
+	return file_clientpb_client_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Event) GetEventType() uint32 {
+	if x != nil {
+		return x.EventType
+	}
+	return 0
+}
+
 var File_clientpb_client_proto protoreflect.FileDescriptor
 
 const file_clientpb_client_proto_rawDesc = "" +
@@ -153,7 +197,9 @@ const file_clientpb_client_proto_rawDesc = "" +
 	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x12\n" +
 	"\x04Type\x18\x02 \x01(\tR\x04Type\x12\x14\n" +
 	"\x05JobID\x18\x03 \x01(\rR\x05JobID\x125\n" +
-	"\bMTLSConf\x18\x04 \x01(\v2\x19.clientpb.MTLSListenerReqR\bMTLSConfB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
+	"\bMTLSConf\x18\x04 \x01(\v2\x19.clientpb.MTLSListenerReqR\bMTLSConf\"%\n" +
+	"\x05Event\x12\x1c\n" +
+	"\tEventType\x18\x01 \x01(\rR\tEventTypeB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
 
 var (
 	file_clientpb_client_proto_rawDescOnce sync.Once
@@ -167,10 +213,11 @@ func file_clientpb_client_proto_rawDescGZIP() []byte {
 	return file_clientpb_client_proto_rawDescData
 }
 
-var file_clientpb_client_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_clientpb_client_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_clientpb_client_proto_goTypes = []any{
 	(*MTLSListenerReq)(nil), // 0: clientpb.MTLSListenerReq
 	(*ListenerJob)(nil),     // 1: clientpb.ListenerJob
+	(*Event)(nil),           // 2: clientpb.Event
 }
 var file_clientpb_client_proto_depIdxs = []int32{
 	0, // 0: clientpb.ListenerJob.MTLSConf:type_name -> clientpb.MTLSListenerReq
@@ -192,7 +239,7 @@ func file_clientpb_client_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_clientpb_client_proto_rawDesc), len(file_clientpb_client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
