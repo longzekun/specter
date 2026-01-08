@@ -8,8 +8,8 @@ package rpcpb
 
 import (
 	context "context"
-
 	clientpb "github.com/longzekun/specter/protobuf/clientpb"
+	commonpb "github.com/longzekun/specter/protobuf/commonpb"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	SpecterRPC_StartMTLSListener_FullMethodName = "/rpcpb.SpecterRPC/StartMTLSListener"
+	SpecterRPC_Events_FullMethodName            = "/rpcpb.SpecterRPC/Events"
 )
 
 // SpecterRPCClient is the client API for SpecterRPC service.
@@ -30,6 +31,7 @@ const (
 type SpecterRPCClient interface {
 	// **********listener************
 	StartMTLSListener(ctx context.Context, in *clientpb.MTLSListenerReq, opts ...grpc.CallOption) (*clientpb.ListenerJob, error)
+	Events(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[clientpb.Event], error)
 }
 
 type specterRPCClient struct {
@@ -50,12 +52,32 @@ func (c *specterRPCClient) StartMTLSListener(ctx context.Context, in *clientpb.M
 	return out, nil
 }
 
+func (c *specterRPCClient) Events(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[clientpb.Event], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &SpecterRPC_ServiceDesc.Streams[0], SpecterRPC_Events_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[commonpb.Empty, clientpb.Event]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SpecterRPC_EventsClient = grpc.ServerStreamingClient[clientpb.Event]
+
 // SpecterRPCServer is the server API for SpecterRPC service.
 // All implementations must embed UnimplementedSpecterRPCServer
 // for forward compatibility.
 type SpecterRPCServer interface {
 	// **********listener************
 	StartMTLSListener(context.Context, *clientpb.MTLSListenerReq) (*clientpb.ListenerJob, error)
+	Events(*commonpb.Empty, grpc.ServerStreamingServer[clientpb.Event]) error
 	mustEmbedUnimplementedSpecterRPCServer()
 }
 
@@ -68,6 +90,9 @@ type UnimplementedSpecterRPCServer struct{}
 
 func (UnimplementedSpecterRPCServer) StartMTLSListener(context.Context, *clientpb.MTLSListenerReq) (*clientpb.ListenerJob, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartMTLSListener not implemented")
+}
+func (UnimplementedSpecterRPCServer) Events(*commonpb.Empty, grpc.ServerStreamingServer[clientpb.Event]) error {
+	return status.Error(codes.Unimplemented, "method Events not implemented")
 }
 func (UnimplementedSpecterRPCServer) mustEmbedUnimplementedSpecterRPCServer() {}
 func (UnimplementedSpecterRPCServer) testEmbeddedByValue()                    {}
@@ -108,6 +133,17 @@ func _SpecterRPC_StartMTLSListener_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpecterRPC_Events_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(commonpb.Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(SpecterRPCServer).Events(m, &grpc.GenericServerStream[commonpb.Empty, clientpb.Event]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type SpecterRPC_EventsServer = grpc.ServerStreamingServer[clientpb.Event]
+
 // SpecterRPC_ServiceDesc is the grpc.ServiceDesc for SpecterRPC service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -120,6 +156,12 @@ var SpecterRPC_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SpecterRPC_StartMTLSListener_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "Events",
+			Handler:       _SpecterRPC_Events_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "rpcpb/services.proto",
 }
