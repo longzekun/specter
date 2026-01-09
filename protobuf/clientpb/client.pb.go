@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: clientpb/client.proto
+// source: client.proto
 
 package clientpb
 
@@ -31,7 +31,7 @@ type MTLSListenerReq struct {
 
 func (x *MTLSListenerReq) Reset() {
 	*x = MTLSListenerReq{}
-	mi := &file_clientpb_client_proto_msgTypes[0]
+	mi := &file_client_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *MTLSListenerReq) String() string {
 func (*MTLSListenerReq) ProtoMessage() {}
 
 func (x *MTLSListenerReq) ProtoReflect() protoreflect.Message {
-	mi := &file_clientpb_client_proto_msgTypes[0]
+	mi := &file_client_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *MTLSListenerReq) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MTLSListenerReq.ProtoReflect.Descriptor instead.
 func (*MTLSListenerReq) Descriptor() ([]byte, []int) {
-	return file_clientpb_client_proto_rawDescGZIP(), []int{0}
+	return file_client_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *MTLSListenerReq) GetHost() string {
@@ -85,7 +85,7 @@ type ListenerJob struct {
 
 func (x *ListenerJob) Reset() {
 	*x = ListenerJob{}
-	mi := &file_clientpb_client_proto_msgTypes[1]
+	mi := &file_client_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -97,7 +97,7 @@ func (x *ListenerJob) String() string {
 func (*ListenerJob) ProtoMessage() {}
 
 func (x *ListenerJob) ProtoReflect() protoreflect.Message {
-	mi := &file_clientpb_client_proto_msgTypes[1]
+	mi := &file_client_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -110,7 +110,7 @@ func (x *ListenerJob) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListenerJob.ProtoReflect.Descriptor instead.
 func (*ListenerJob) Descriptor() ([]byte, []int) {
-	return file_clientpb_client_proto_rawDescGZIP(), []int{1}
+	return file_client_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ListenerJob) GetID() string {
@@ -144,13 +144,14 @@ func (x *ListenerJob) GetMTLSConf() *MTLSListenerReq {
 type Event struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	EventType     uint32                 `protobuf:"varint,1,opt,name=EventType,proto3" json:"EventType,omitempty"`
+	Client        *Client                `protobuf:"bytes,2,opt,name=Client,proto3" json:"Client,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Event) Reset() {
 	*x = Event{}
-	mi := &file_clientpb_client_proto_msgTypes[2]
+	mi := &file_client_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -162,7 +163,7 @@ func (x *Event) String() string {
 func (*Event) ProtoMessage() {}
 
 func (x *Event) ProtoReflect() protoreflect.Message {
-	mi := &file_clientpb_client_proto_msgTypes[2]
+	mi := &file_client_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -175,7 +176,7 @@ func (x *Event) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Event.ProtoReflect.Descriptor instead.
 func (*Event) Descriptor() ([]byte, []int) {
-	return file_clientpb_client_proto_rawDescGZIP(), []int{2}
+	return file_client_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Event) GetEventType() uint32 {
@@ -185,11 +186,130 @@ func (x *Event) GetEventType() uint32 {
 	return 0
 }
 
-var File_clientpb_client_proto protoreflect.FileDescriptor
+func (x *Event) GetClient() *Client {
+	if x != nil {
+		return x.Client
+	}
+	return nil
+}
 
-const file_clientpb_client_proto_rawDesc = "" +
+type Operator struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Online        bool                   `protobuf:"varint,1,opt,name=Online,proto3" json:"Online,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Operator) Reset() {
+	*x = Operator{}
+	mi := &file_client_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Operator) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Operator) ProtoMessage() {}
+
+func (x *Operator) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Operator.ProtoReflect.Descriptor instead.
+func (*Operator) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Operator) GetOnline() bool {
+	if x != nil {
+		return x.Online
+	}
+	return false
+}
+
+func (x *Operator) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type Client struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Operator      *Operator              `protobuf:"bytes,3,opt,name=Operator,proto3" json:"Operator,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Client) Reset() {
+	*x = Client{}
+	mi := &file_client_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Client) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Client) ProtoMessage() {}
+
+func (x *Client) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Client.ProtoReflect.Descriptor instead.
+func (*Client) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Client) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *Client) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Client) GetOperator() *Operator {
+	if x != nil {
+		return x.Operator
+	}
+	return nil
+}
+
+var File_client_proto protoreflect.FileDescriptor
+
+const file_client_proto_rawDesc = "" +
 	"\n" +
-	"\x15clientpb/client.proto\x12\bclientpb\"9\n" +
+	"\fclient.proto\x12\bclientpb\"9\n" +
 	"\x0fMTLSListenerReq\x12\x12\n" +
 	"\x04Host\x18\x01 \x01(\tR\x04Host\x12\x12\n" +
 	"\x04Port\x18\x02 \x01(\rR\x04Port\"~\n" +
@@ -197,57 +317,69 @@ const file_clientpb_client_proto_rawDesc = "" +
 	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x12\n" +
 	"\x04Type\x18\x02 \x01(\tR\x04Type\x12\x14\n" +
 	"\x05JobID\x18\x03 \x01(\rR\x05JobID\x125\n" +
-	"\bMTLSConf\x18\x04 \x01(\v2\x19.clientpb.MTLSListenerReqR\bMTLSConf\"%\n" +
+	"\bMTLSConf\x18\x04 \x01(\v2\x19.clientpb.MTLSListenerReqR\bMTLSConf\"O\n" +
 	"\x05Event\x12\x1c\n" +
-	"\tEventType\x18\x01 \x01(\rR\tEventTypeB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
+	"\tEventType\x18\x01 \x01(\rR\tEventType\x12(\n" +
+	"\x06Client\x18\x02 \x01(\v2\x10.clientpb.clientR\x06Client\"6\n" +
+	"\bOperator\x12\x16\n" +
+	"\x06Online\x18\x01 \x01(\bR\x06Online\x12\x12\n" +
+	"\x04Name\x18\x02 \x01(\tR\x04Name\"\\\n" +
+	"\x06client\x12\x0e\n" +
+	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x12\n" +
+	"\x04Name\x18\x02 \x01(\tR\x04Name\x12.\n" +
+	"\bOperator\x18\x03 \x01(\v2\x12.clientpb.OperatorR\bOperatorB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
 
 var (
-	file_clientpb_client_proto_rawDescOnce sync.Once
-	file_clientpb_client_proto_rawDescData []byte
+	file_client_proto_rawDescOnce sync.Once
+	file_client_proto_rawDescData []byte
 )
 
-func file_clientpb_client_proto_rawDescGZIP() []byte {
-	file_clientpb_client_proto_rawDescOnce.Do(func() {
-		file_clientpb_client_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_clientpb_client_proto_rawDesc), len(file_clientpb_client_proto_rawDesc)))
+func file_client_proto_rawDescGZIP() []byte {
+	file_client_proto_rawDescOnce.Do(func() {
+		file_client_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_client_proto_rawDesc), len(file_client_proto_rawDesc)))
 	})
-	return file_clientpb_client_proto_rawDescData
+	return file_client_proto_rawDescData
 }
 
-var file_clientpb_client_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_clientpb_client_proto_goTypes = []any{
+var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_client_proto_goTypes = []any{
 	(*MTLSListenerReq)(nil), // 0: clientpb.MTLSListenerReq
 	(*ListenerJob)(nil),     // 1: clientpb.ListenerJob
 	(*Event)(nil),           // 2: clientpb.Event
+	(*Operator)(nil),        // 3: clientpb.Operator
+	(*Client)(nil),          // 4: clientpb.client
 }
-var file_clientpb_client_proto_depIdxs = []int32{
+var file_client_proto_depIdxs = []int32{
 	0, // 0: clientpb.ListenerJob.MTLSConf:type_name -> clientpb.MTLSListenerReq
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 1: clientpb.Event.Client:type_name -> clientpb.client
+	3, // 2: clientpb.client.Operator:type_name -> clientpb.Operator
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
-func init() { file_clientpb_client_proto_init() }
-func file_clientpb_client_proto_init() {
-	if File_clientpb_client_proto != nil {
+func init() { file_client_proto_init() }
+func file_client_proto_init() {
+	if File_client_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_clientpb_client_proto_rawDesc), len(file_clientpb_client_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_client_proto_rawDesc), len(file_client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_clientpb_client_proto_goTypes,
-		DependencyIndexes: file_clientpb_client_proto_depIdxs,
-		MessageInfos:      file_clientpb_client_proto_msgTypes,
+		GoTypes:           file_client_proto_goTypes,
+		DependencyIndexes: file_client_proto_depIdxs,
+		MessageInfos:      file_client_proto_msgTypes,
 	}.Build()
-	File_clientpb_client_proto = out.File
-	file_clientpb_client_proto_goTypes = nil
-	file_clientpb_client_proto_depIdxs = nil
+	File_client_proto = out.File
+	file_client_proto_goTypes = nil
+	file_client_proto_depIdxs = nil
 }

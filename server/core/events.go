@@ -6,6 +6,7 @@ const (
 
 type Event struct {
 	EventType uint32
+	Client    *Client
 }
 
 type eventBroker struct {

@@ -16,4 +16,16 @@ message ListenerJob {
 
 message Event {
   uint32 EventType = 1;
+  client Client = 2;
+}
+
+message Operator {
+  bool Online = 1;
+  string Name = 2;
+}
+
+message client {
+  string ID = 1;
+  string Name  = 2;
+  Operator Operator = 3;
 }

@@ -31,6 +31,7 @@ func newDBClient() *gorm.DB {
 
 	var allDBModels []interface{} = append(make([]interface{}, 0),
 		&models.Certificate{},
+		&models.Operator{},
 	)
 	var err error
 	for _, model := range allDBModels {

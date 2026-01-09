@@ -13,8 +13,9 @@ import (
 )
 
 const (
-	MtlsServerType  = "mtls-server"
-	MtlsImplantType = "mtls-implant"
+	MtlsServerType     = "mtls-server"
+	MtlsImplantType    = "mtls-implant"
+	OperatorClientType = "operator-client"
 )
 
 func getCertDir() string {
@@ -31,6 +32,8 @@ func SetupCAs() {
 	GenerateCertificateAuthority(MtlsServerType, "")
 	//	mtls-implant CA
 	GenerateCertificateAuthority(MtlsImplantType, "")
+	//	operator CA
+	GenerateCertificateAuthority(OperatorClientType, "")
 }
 
 func GenerateCertificateAuthority(CAType string, commonName string) (*x509.Certificate, *ecdsa.PrivateKey) {

@@ -58,7 +58,9 @@ func (c *SpecterClient) exitConsole(_ *console.Console) {
 func StartClient(con *SpecterClient, rpc rpcpb.SpecterRPCClient, serverCommands console.Commands, implantCommands console.Commands) error {
 	con.RPC = rpc
 
-	con.printf = fmt.Printf
+	con.printf = con.Console.Printf
+
+	go con.StartEventLoop()
 
 	if serverCommands != nil {
 		server := con.Console.Menu(constants.ServerMenu)
@@ -86,5 +88,12 @@ func (c *SpecterClient) StartEventLoop() {
 		}
 
 		//	deal event
+		switch event.EventType {
+		case constants.ClientJoinType:
+			c.printf("\nClient joined,Operator name is %v\n", event.Client.Operator.Name)
+		case constants.ClientLeaveType:
+			c.printf("\nClient left,Operator name is %v\n", event.Client.Operator.Name)
+		}
+
 	}
 }
