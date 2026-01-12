@@ -36,7 +36,7 @@ func StartMtlsClientListener(host string, port int) (*grpc.Server, net.Listener,
 		grpc.MaxSendMsgSize(ServerMaxMessageSize), //	2GB
 	}
 
-	options = append(options, initMiddle()...)
+	options = append(options, initMiddle(false)...)
 
 	grpcServer := grpc.NewServer(options...)
 	rpcpb.RegisterSpecterRPCServer(grpcServer, rpc.NewServer())

@@ -4,12 +4,12 @@ import (
 	"github.com/longzekun/specter/client/command/exit"
 	"github.com/longzekun/specter/client/command/jobs"
 	client "github.com/longzekun/specter/client/console"
-	"github.com/longzekun/specter/server/constants"
+	"github.com/longzekun/specter/client/constants"
 	"github.com/reeflective/console"
 	"github.com/spf13/cobra"
 )
 
-func ServerCommands(con *client.SpecterClient) console.Commands {
+func ServerCommands(con *client.SpecterClient, serverOnlyCommands func() []*cobra.Command) console.Commands {
 	serverCommands := func() *cobra.Command {
 		server := &cobra.Command{
 			Short: "Server Commands",
@@ -20,6 +20,11 @@ func ServerCommands(con *client.SpecterClient) console.Commands {
 
 		//	将服务端的命令挂载到server根上
 		bind := makeBind(server, con)
+
+		if serverOnlyCommands != nil {
+			server.AddGroup(&cobra.Group{ID: constants.MultiplayerHelpGroup, Title: constants.MultiplayerHelpGroup})
+			server.AddCommand(serverOnlyCommands()...)
+		}
 
 		//	绑定通用命令
 		bind(

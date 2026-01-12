@@ -5,8 +5,10 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"math/rand"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/longzekun/specter/client/constants"
 	"github.com/longzekun/specter/protobuf/commonpb"
@@ -16,14 +18,16 @@ import (
 )
 
 type SpecterClient struct {
-	Console *console.Console
-	RPC     rpcpb.SpecterRPCClient
-	printf  func(format string, args ...any) (int, error)
+	Console  *console.Console
+	IsServer bool
+	RPC      rpcpb.SpecterRPCClient
+	printf   func(format string, args ...any) (int, error)
 }
 
 func NewConsole(isServer bool) *SpecterClient {
 	c := &SpecterClient{
-		Console: console.New("specter"),
+		Console:  console.New("specter"),
+		IsServer: isServer,
 	}
 
 	//	通用配置
@@ -35,6 +39,11 @@ func NewConsole(isServer bool) *SpecterClient {
 	server.Short = "Server Command"
 	server.Prompt().Primary = c.Prompt
 	server.AddInterrupt(readline.ErrInterrupt, c.exitConsole)
+
+	c.Console.SetPrintLogo(func(_ *console.Console) {
+		c.PrintLogo()
+	})
+
 	return c
 }
 
@@ -96,4 +105,85 @@ func (c *SpecterClient) StartEventLoop() {
 		}
 
 	}
+}
+
+func (c *SpecterClient) PrintLogo() {
+	rand.Seed(time.Now().UnixNano())
+	n := rand.Intn(7)
+	fmt.Printf("%s", asciiSpecterLogo[n])
+
+	//
+}
+
+const (
+	ColorReset  = "\033[0m"  // 重置
+	ColorRed    = "\033[31m" // 红色
+	ColorGreen  = "\033[32m" // 绿色
+	ColorYellow = "\033[33m" // 黄色
+	ColorBlue   = "\033[34m" // 蓝色
+	ColorPurple = "\033[35m" // 紫色
+	ColorCyan   = "\033[36m" // 青色
+	ColorWhite  = "\033[37m" // 白色
+)
+
+var asciiSpecterLogo = []string{
+	ColorPurple +
+		`
+ ░▒▓███████▓▒░▒▓███████▓▒░░▒▓████████▓▒░▒▓██████▓▒░▒▓████████▓▒░▒▓████████▓▒░▒▓███████▓▒░
+░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░   ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░
+░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░     ░▒▓█▓▒░        ░▒▓█▓▒░   ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░
+ ░▒▓██████▓▒░░▒▓███████▓▒░░▒▓██████▓▒░░▒▓█▓▒░        ░▒▓█▓▒░   ░▒▓██████▓▒░ ░▒▓███████▓▒░
+       ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     ░▒▓█▓▒░        ░▒▓█▓▒░   ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░
+       ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░     ░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░   ░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░
+░▒▓███████▓▒░░▒▓█▓▒░      ░▒▓████████▓▒░▒▓██████▓▒░  ░▒▓█▓▒░   ░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░
+` + ColorReset,
+	ColorRed +
+		`
+  ____     ____   U _____ u   ____   _____  U _____ u   ____     
+ / __"| uU|  _"\ u\| ___"|/U /"___| |_ " _| \| ___"|/U |  _"\ u  
+<\___ \/ \| |_) |/ |  _|"  \| | u     | |    |  _|"   \| |_) |/  
+ u___) |  |  __/   | |___   | |/__   /| |\   | |___    |  _ <    
+ |____/>> |_|      |_____|   \____| u |_|U   |_____|   |_| \_\   
+  )(  (__)||>>_    <<   >>  _// \\  _// \\_  <<   >>   //   \\_  
+ (__)    (__)__)  (__) (__)(__)(__)(__) (__)(__) (__) (__)  (__) 
+` + ColorReset,
+	ColorGreen + `
+     _____        _____        _____        _____         _____        _____        _____     
+  __|___  |__  __|__   |__  __|___  |__  __|___  |__  ___|__   |__  __|___  |__  __|__   |__  
+ |   ___|    ||     |     ||   ___|    ||   ___|    ||_    _|     ||   ___|    ||     |     | 
+  '-.'-.     ||    _|     ||   ___|    ||   |__     | |    |      ||   ___|    ||     \     |
+ |______|  __||___|     __||______|  __||______|  __| |____|    __||______|  __||__|\__\  __|
+    |_____|      |_____|      |_____|      |_____|       |_____|      |_____|      |_____|
+
+` + ColorReset,
+	ColorYellow + `
+.------..------..------..------..------..------..------.
+|S.--. ||P.--. ||E.--. ||C.--. ||T.--. ||E.--. ||R.--. |
+| :/\: || :/\: || (\/) || :/\: || :/\: || (\/) || :(): |
+| :\/: || (__) || :\/: || :\/: || (__) || :\/: || ()() |
+| '--'S|| '--'P|| '--'E|| '--'C|| '--'T|| '--'E|| '--'R|
+~------'~------'~------'~------'~------'~------'~------'
+` + ColorReset,
+	ColorBlue + `
+   ___      ___    ___     ___    _____    ___     ___   
+  / __|    | _ \  | __|   / __|  |_   _|  | __|   | _ \  
+  \__ \    |  _/  | _|   | (__     | |    | _|    |   /  
+  |___/   _|_|_   |___|   \___|   _|_|_   |___|   |_|_\  
+_|"""""|_| """ |_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
+"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-' 
+` + ColorReset,
+	ColorCyan + ` 
+      _/_/_/  _/_/_/    _/_/_/_/    _/_/_/  _/_/_/_/_/  _/_/_/_/  _/_/_/    
+   _/        _/    _/  _/        _/            _/      _/        _/    _/   
+    _/_/    _/_/_/    _/_/_/    _/            _/      _/_/_/    _/_/_/      
+       _/  _/        _/        _/            _/      _/        _/    _/     
+_/_/_/    _/        _/_/_/_/    _/_/_/      _/      _/_/_/_/  _/    _/       
+` + ColorReset,
+	` 
+   _|_|_|  _|_|_|    _|_|_|_|    _|_|_|  _|_|_|_|_|  _|_|_|_|  _|_|_|    
+ _|        _|    _|  _|        _|            _|      _|        _|    _|  
+   _|_|    _|_|_|    _|_|_|    _|            _|      _|_|_|    _|_|_|    
+       _|  _|        _|        _|            _|      _|        _|    _|  
+ _|_|_|    _|        _|_|_|_|    _|_|_|      _|      _|_|_|_|  _|    _|   
+`,
 }

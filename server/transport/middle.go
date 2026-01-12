@@ -6,7 +6,9 @@ import (
 	"encoding/hex"
 	"errors"
 	"sync"
+	"time"
 
+	"github.com/gofrs/uuid"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"github.com/longzekun/specter/server/db"
 	"github.com/longzekun/specter/server/db/models"
@@ -18,14 +20,25 @@ const (
 	Operator  = "operator"
 )
 
-func initMiddle() []grpc.ServerOption {
-	return []grpc.ServerOption{
-		grpc.ChainUnaryInterceptor(
-			grpc_auth.UnaryServerInterceptor(tokenAuthFunc),
-		),
-		grpc.ChainStreamInterceptor(
-			grpc_auth.StreamServerInterceptor(tokenAuthFunc),
-		),
+func initMiddle(isServer bool) []grpc.ServerOption {
+	if isServer {
+		return []grpc.ServerOption{
+			grpc.ChainUnaryInterceptor(
+				grpc_auth.UnaryServerInterceptor(serverAuthFunc),
+			),
+			grpc.ChainStreamInterceptor(
+				grpc_auth.StreamServerInterceptor(serverAuthFunc),
+			),
+		}
+	} else {
+		return []grpc.ServerOption{
+			grpc.ChainUnaryInterceptor(
+				grpc_auth.UnaryServerInterceptor(tokenAuthFunc),
+			),
+			grpc.ChainStreamInterceptor(
+				grpc_auth.StreamServerInterceptor(tokenAuthFunc),
+			),
+		}
 	}
 }
 
@@ -63,5 +76,22 @@ func tokenAuthFunc(ctx context.Context) (context.Context, error) {
 
 	tokenCache.Store(token, op)
 	newCtx = context.WithValue(newCtx, Operator, op)
+	return newCtx, nil
+}
+
+func serverAuthFunc(ctx context.Context) (context.Context, error) {
+	newCtx := context.WithValue(ctx, Transport, "local")
+
+	ID, err := uuid.NewV4()
+	if err != nil {
+		return nil, err
+	}
+
+	operator := &models.Operator{
+		ID:        ID,
+		CreatedAt: time.Now(),
+		Name:      "server",
+	}
+	newCtx = context.WithValue(newCtx, Operator, operator)
 	return newCtx, nil
 }

@@ -31,7 +31,7 @@ func main() {
 	con := console.NewConsole(false)
 
 	//	set rpc,server commands,implant  commands
-	console.StartClient(con, rpc, command.ServerCommands(con), nil)
+	console.StartClient(con, rpc, command.ServerCommands(con, nil), nil)
 }
 
 func handleConnectionLost(ln *grpc.ClientConn) {

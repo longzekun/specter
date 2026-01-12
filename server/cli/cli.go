@@ -3,12 +3,10 @@ package cli
 import (
 	"fmt"
 	"os"
-	"time"
 
 	"github.com/longzekun/specter/server/certs"
-	"github.com/longzekun/specter/server/transport"
+	"github.com/longzekun/specter/server/console"
 	"github.com/spf13/cobra"
-	"go.uber.org/zap"
 )
 
 func init() {
@@ -31,13 +29,7 @@ var rootCmd = &cobra.Command{
 		//	root cmd
 		certs.SetupCAs()
 
-		zap.S().Debugf("Starting Specter Server")
-
-		transport.StartMtlsClientListener("0.0.0.0", 7777)
-
-		for {
-			time.Sleep(1 * time.Second)
-		}
+		console.Start()
 	},
 }
 

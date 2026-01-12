@@ -1,82 +1,60 @@
 package console
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
-	"errors"
-	"fmt"
-	"regexp"
+	"context"
+	"github.com/longzekun/specter/client/command"
+	"github.com/longzekun/specter/client/console"
+	"github.com/longzekun/specter/client/constants"
+	client_transport "github.com/longzekun/specter/client/transport"
+	"github.com/longzekun/specter/protobuf/rpcpb"
+	"github.com/longzekun/specter/server/transport"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"go.uber.org/zap"
+	"google.golang.org/grpc"
 
-	client_auth_config "github.com/longzekun/specter/client/config"
-	"github.com/longzekun/specter/server/certs"
-	"github.com/longzekun/specter/server/db"
-	"github.com/longzekun/specter/server/db/models"
-	"gorm.io/gorm"
+	"net"
 )
 
-var namePattern = regexp.MustCompile("^[a-zA-Z0-9_-]*$")
+func Start() {
+	_, ln, _ := transport.LocalListener()
+	ctxDialer := grpc.WithContextDialer(func(ctx context.Context, addr string) (net.Conn, error) {
+		return ln.Dial()
+	})
 
-func NewOperatorClientConfig(operatorName string, lhost string, lport uint16) ([]byte, error) {
-	if !namePattern.MatchString(operatorName) {
-		return nil, fmt.Errorf("invalid operator name: %s", operatorName)
-	}
-	if operatorName == "" {
-		return nil, fmt.Errorf("invalid operator name: %s", operatorName)
-	}
-
-	//
-	var record models.Operator
-	err := db.Session().Where(&models.Operator{Name: operatorName}).First(&record).Error
-	if err == nil {
-		return nil, fmt.Errorf("operator already exists: %s", operatorName)
+	options := []grpc.DialOption{
+		ctxDialer,
+		grpc.WithInsecure(),
+		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(client_transport.ClientMaxReceiveMessageSize)),
 	}
 
-	if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, err
-	}
-
-	if lhost == "" {
-		return nil, fmt.Errorf("invalid host name: %s", lhost)
-	}
-
-	if lport == 0 {
-		return nil, fmt.Errorf("invalid port number: %d", lport)
-	}
-
-	rawToken := models.GenerateOperatorToken()
-	digest := sha256.Sum256([]byte(rawToken))
-	dbOperator := &models.Operator{
-		Name:  operatorName,
-		Token: hex.EncodeToString(digest[:]),
-	}
-
-	err = db.Session().Save(dbOperator).Error
+	conn, err := grpc.Dial(ln.Addr().String(), options...)
 	if err != nil {
-		return nil, err
+		zap.S().Warnf("fail to dial: %v", err)
+		return
 	}
+	defer conn.Close()
 
-	//	cert
-	publicKey, privateKey, err := certs.OperatorClientGenerateCertificate(operatorName)
-	if err != nil {
-		return nil, err
+	localRPC := rpcpb.NewSpecterRPCClient(conn)
+	con := console.NewConsole(false)
+
+	console.StartClient(con, localRPC, command.ServerCommands(con, serverOnlyCommands), nil)
+}
+
+func serverOnlyCommands() (commands []*cobra.Command) {
+	startMultiplayer := &cobra.Command{
+		Use:     constants.MultiplayerModeStr,
+		Short:   "Enable multiplayer mode",
+		Long:    ``,
+		Run:     startMultiplayerModeCmd,
+		GroupID: constants.MultiplayerHelpGroup,
 	}
-	caCertPem, _, _ := certs.GetCertificateAuthorityPem(certs.OperatorClientType)
+	command.Bind("multiplayer", false, startMultiplayer, func(f *pflag.FlagSet) {
+		f.StringP("lhost", "l", "", "interface to bind server to")
+		f.Uint16P("lport", "p", 31337, "tcp listen port")
+	})
 
-	clientAuthConfig := &client_auth_config.ClientAuthConfig{
-		Operator:      operatorName,
-		Token:         rawToken,
-		Lhost:         lhost,
-		Lport:         int(lport),
-		CACertificate: string(caCertPem),
-		PrivateKey:    string(privateKey),
-		PublicKey:     string(publicKey),
-	}
+	commands = append(commands, startMultiplayer)
 
-	clientConfig, err := json.MarshalIndent(clientAuthConfig, "", "    ")
-	if err != nil {
-		return nil, err
-	}
-
-	return clientConfig, nil
+	return commands
 }

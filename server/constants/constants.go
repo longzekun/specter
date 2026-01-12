@@ -1,9 +1,6 @@
 package constants
 
 const (
-	GenericHelpGroup = "Generic"
-	NetworkHelpGroup = "Network"
-
 	MtlsStr = "mtls"
 )
 

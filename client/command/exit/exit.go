@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/longzekun/specter/client/console"
-	"github.com/longzekun/specter/server/constants"
+	"github.com/longzekun/specter/client/constants"
 	"github.com/spf13/cobra"
 )
 

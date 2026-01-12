@@ -33,6 +33,11 @@ var operatorCmd = &cobra.Command{
 			return
 		}
 
+		if name == "server" {
+			fmt.Printf("server is a reserved file name and is not allowed to be used.")
+			return
+		}
+
 		host, err := cmd.Flags().GetString(hostFlagStr)
 		if err != nil {
 			fmt.Printf("failed to parse flags %v: %v\n", hostFlagStr, err)
