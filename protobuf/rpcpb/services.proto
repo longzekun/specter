@@ -7,8 +7,15 @@ import "clientpb/client.proto";
 
 
 service SpecterRPC{
-  //  **********listener************
+  //  network
   rpc StartMTLSListener(clientpb.MTLSListenerReq) returns (clientpb.ListenerJob);
+  rpc GetAllJobs(commonpb.Empty) returns (clientpb.Jobs);
+  rpc KillAllJobs(commonpb.Empty)returns(commonpb.Empty);
+  rpc KillJob(clientpb.KillJobReq) returns(commonpb.Empty);
 
   rpc Events(commonpb.Empty) returns (stream clientpb.Event);
+
+  rpc GetVersion(commonpb.Empty) returns (clientpb.version);
+
+
 }

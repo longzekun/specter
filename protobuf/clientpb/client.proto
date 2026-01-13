@@ -29,3 +29,28 @@ message client {
   string Name  = 2;
   Operator Operator = 3;
 }
+
+message version {
+  string Version = 1;
+  string Commit = 2;
+  string Dirty = 3;
+  string CompiledAt = 4;
+  string OS = 5;
+  string Arch = 6;
+}
+
+message Job {
+  int32 ID = 1;
+  string Name = 2;
+  string Description = 3;
+  string Protocol = 4;
+  int32 Port = 5;
+}
+
+message Jobs {
+  repeated Job Activate = 1;
+}
+
+message KillJobReq{
+  uint32 ID = 1;
+}

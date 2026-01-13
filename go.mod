@@ -1,7 +1,6 @@
 module github.com/longzekun/specter
 
 go 1.25
-
 require (
 	github.com/glebarez/sqlite v1.11.0
 	github.com/gofrs/uuid v4.4.0+incompatible

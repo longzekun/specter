@@ -22,16 +22,24 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	SpecterRPC_StartMTLSListener_FullMethodName = "/rpcpb.SpecterRPC/StartMTLSListener"
+	SpecterRPC_GetAllJobs_FullMethodName        = "/rpcpb.SpecterRPC/GetAllJobs"
+	SpecterRPC_KillAllJobs_FullMethodName       = "/rpcpb.SpecterRPC/KillAllJobs"
+	SpecterRPC_KillJob_FullMethodName           = "/rpcpb.SpecterRPC/KillJob"
 	SpecterRPC_Events_FullMethodName            = "/rpcpb.SpecterRPC/Events"
+	SpecterRPC_GetVersion_FullMethodName        = "/rpcpb.SpecterRPC/GetVersion"
 )
 
 // SpecterRPCClient is the client API for SpecterRPC service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SpecterRPCClient interface {
-	// **********listener************
+	// network
 	StartMTLSListener(ctx context.Context, in *clientpb.MTLSListenerReq, opts ...grpc.CallOption) (*clientpb.ListenerJob, error)
+	GetAllJobs(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Jobs, error)
+	KillAllJobs(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*commonpb.Empty, error)
+	KillJob(ctx context.Context, in *clientpb.KillJobReq, opts ...grpc.CallOption) (*commonpb.Empty, error)
 	Events(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[clientpb.Event], error)
+	GetVersion(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Version, error)
 }
 
 type specterRPCClient struct {
@@ -46,6 +54,36 @@ func (c *specterRPCClient) StartMTLSListener(ctx context.Context, in *clientpb.M
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(clientpb.ListenerJob)
 	err := c.cc.Invoke(ctx, SpecterRPC_StartMTLSListener_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *specterRPCClient) GetAllJobs(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Jobs, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(clientpb.Jobs)
+	err := c.cc.Invoke(ctx, SpecterRPC_GetAllJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *specterRPCClient) KillAllJobs(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*commonpb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(commonpb.Empty)
+	err := c.cc.Invoke(ctx, SpecterRPC_KillAllJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *specterRPCClient) KillJob(ctx context.Context, in *clientpb.KillJobReq, opts ...grpc.CallOption) (*commonpb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(commonpb.Empty)
+	err := c.cc.Invoke(ctx, SpecterRPC_KillJob_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -71,13 +109,27 @@ func (c *specterRPCClient) Events(ctx context.Context, in *commonpb.Empty, opts 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SpecterRPC_EventsClient = grpc.ServerStreamingClient[clientpb.Event]
 
+func (c *specterRPCClient) GetVersion(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Version, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(clientpb.Version)
+	err := c.cc.Invoke(ctx, SpecterRPC_GetVersion_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SpecterRPCServer is the server API for SpecterRPC service.
 // All implementations must embed UnimplementedSpecterRPCServer
 // for forward compatibility.
 type SpecterRPCServer interface {
-	// **********listener************
+	// network
 	StartMTLSListener(context.Context, *clientpb.MTLSListenerReq) (*clientpb.ListenerJob, error)
+	GetAllJobs(context.Context, *commonpb.Empty) (*clientpb.Jobs, error)
+	KillAllJobs(context.Context, *commonpb.Empty) (*commonpb.Empty, error)
+	KillJob(context.Context, *clientpb.KillJobReq) (*commonpb.Empty, error)
 	Events(*commonpb.Empty, grpc.ServerStreamingServer[clientpb.Event]) error
+	GetVersion(context.Context, *commonpb.Empty) (*clientpb.Version, error)
 	mustEmbedUnimplementedSpecterRPCServer()
 }
 
@@ -91,8 +143,20 @@ type UnimplementedSpecterRPCServer struct{}
 func (UnimplementedSpecterRPCServer) StartMTLSListener(context.Context, *clientpb.MTLSListenerReq) (*clientpb.ListenerJob, error) {
 	return nil, status.Error(codes.Unimplemented, "method StartMTLSListener not implemented")
 }
+func (UnimplementedSpecterRPCServer) GetAllJobs(context.Context, *commonpb.Empty) (*clientpb.Jobs, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllJobs not implemented")
+}
+func (UnimplementedSpecterRPCServer) KillAllJobs(context.Context, *commonpb.Empty) (*commonpb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method KillAllJobs not implemented")
+}
+func (UnimplementedSpecterRPCServer) KillJob(context.Context, *clientpb.KillJobReq) (*commonpb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method KillJob not implemented")
+}
 func (UnimplementedSpecterRPCServer) Events(*commonpb.Empty, grpc.ServerStreamingServer[clientpb.Event]) error {
 	return status.Error(codes.Unimplemented, "method Events not implemented")
+}
+func (UnimplementedSpecterRPCServer) GetVersion(context.Context, *commonpb.Empty) (*clientpb.Version, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetVersion not implemented")
 }
 func (UnimplementedSpecterRPCServer) mustEmbedUnimplementedSpecterRPCServer() {}
 func (UnimplementedSpecterRPCServer) testEmbeddedByValue()                    {}
@@ -133,6 +197,60 @@ func _SpecterRPC_StartMTLSListener_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpecterRPC_GetAllJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonpb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpecterRPCServer).GetAllJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpecterRPC_GetAllJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpecterRPCServer).GetAllJobs(ctx, req.(*commonpb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpecterRPC_KillAllJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonpb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpecterRPCServer).KillAllJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpecterRPC_KillAllJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpecterRPCServer).KillAllJobs(ctx, req.(*commonpb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpecterRPC_KillJob_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(clientpb.KillJobReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpecterRPCServer).KillJob(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpecterRPC_KillJob_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpecterRPCServer).KillJob(ctx, req.(*clientpb.KillJobReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SpecterRPC_Events_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(commonpb.Empty)
 	if err := stream.RecvMsg(m); err != nil {
@@ -144,6 +262,24 @@ func _SpecterRPC_Events_Handler(srv interface{}, stream grpc.ServerStream) error
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SpecterRPC_EventsServer = grpc.ServerStreamingServer[clientpb.Event]
 
+func _SpecterRPC_GetVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonpb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpecterRPCServer).GetVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpecterRPC_GetVersion_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpecterRPCServer).GetVersion(ctx, req.(*commonpb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SpecterRPC_ServiceDesc is the grpc.ServiceDesc for SpecterRPC service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -154,6 +290,22 @@ var SpecterRPC_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "StartMTLSListener",
 			Handler:    _SpecterRPC_StartMTLSListener_Handler,
+		},
+		{
+			MethodName: "GetAllJobs",
+			Handler:    _SpecterRPC_GetAllJobs_Handler,
+		},
+		{
+			MethodName: "KillAllJobs",
+			Handler:    _SpecterRPC_KillAllJobs_Handler,
+		},
+		{
+			MethodName: "KillJob",
+			Handler:    _SpecterRPC_KillJob_Handler,
+		},
+		{
+			MethodName: "GetVersion",
+			Handler:    _SpecterRPC_GetVersion_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

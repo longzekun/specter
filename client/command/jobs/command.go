@@ -23,7 +23,21 @@ func Command(con *console.SpecterClient) []*cobra.Command {
 		f.Uint32P("lport", "l", generate.MTLSDefaultPort, "tcp listen port")
 	})
 
+	jobsCmd := &cobra.Command{
+		Use:   "jobs",
+		Short: "control jobs",
+		Long:  ``,
+		Run: func(cmd *cobra.Command, args []string) {
+			ControlJobs(cmd, con, args)
+		},
+		GroupID: constants.NetworkHelpGroup,
+	}
+	flags.Bind("jobs control", false, jobsCmd, func(f *pflag.FlagSet) {
+		f.Uint32P("kill", "k", 0, "kill job by id")
+		f.BoolP("kill-all", "K", false, "kill all jobs")
+	})
+
 	return []*cobra.Command{
-		mtlsCmd,
+		mtlsCmd, jobsCmd,
 	}
 }

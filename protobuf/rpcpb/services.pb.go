@@ -26,25 +26,30 @@ var File_rpcpb_services_proto protoreflect.FileDescriptor
 
 const file_rpcpb_services_proto_rawDesc = "" +
 	"\n" +
-	"\x14rpcpb/services.proto\x12\x05rpcpb\x1a\x15commonpb/common.proto\x1a\x15clientpb/client.proto2\x81\x01\n" +
+	"\x14rpcpb/services.proto\x12\x05rpcpb\x1a\x15commonpb/common.proto\x1a\x15clientpb/client.proto2\xb3\x01\n" +
 	"\n" +
 	"SpecterRPC\x12E\n" +
 	"\x11StartMTLSListener\x12\x19.clientpb.MTLSListenerReq\x1a\x15.clientpb.ListenerJob\x12,\n" +
-	"\x06Events\x12\x0f.commonpb.Empty\x1a\x0f.clientpb.Event0\x01B-Z+github.com/longzekun/specter/protobuf/rpcpbb\x06proto3"
+	"\x06Events\x12\x0f.commonpb.Empty\x1a\x0f.clientpb.Event0\x01\x120\n" +
+	"\n" +
+	"GetVersion\x12\x0f.commonpb.Empty\x1a\x11.clientpb.versionB-Z+github.com/longzekun/specter/protobuf/rpcpbb\x06proto3"
 
 var file_rpcpb_services_proto_goTypes = []any{
 	(*clientpb.MTLSListenerReq)(nil), // 0: clientpb.MTLSListenerReq
 	(*commonpb.Empty)(nil),           // 1: commonpb.Empty
 	(*clientpb.ListenerJob)(nil),     // 2: clientpb.ListenerJob
 	(*clientpb.Event)(nil),           // 3: clientpb.Event
+	(*clientpb.Version)(nil),         // 4: clientpb.version
 }
 var file_rpcpb_services_proto_depIdxs = []int32{
 	0, // 0: rpcpb.SpecterRPC.StartMTLSListener:input_type -> clientpb.MTLSListenerReq
 	1, // 1: rpcpb.SpecterRPC.Events:input_type -> commonpb.Empty
-	2, // 2: rpcpb.SpecterRPC.StartMTLSListener:output_type -> clientpb.ListenerJob
-	3, // 3: rpcpb.SpecterRPC.Events:output_type -> clientpb.Event
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	1, // 2: rpcpb.SpecterRPC.GetVersion:input_type -> commonpb.Empty
+	2, // 3: rpcpb.SpecterRPC.StartMTLSListener:output_type -> clientpb.ListenerJob
+	3, // 4: rpcpb.SpecterRPC.Events:output_type -> clientpb.Event
+	4, // 5: rpcpb.SpecterRPC.GetVersion:output_type -> clientpb.version
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

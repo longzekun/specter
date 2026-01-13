@@ -305,6 +305,254 @@ func (x *Client) GetOperator() *Operator {
 	return nil
 }
 
+type Version struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Version       string                 `protobuf:"bytes,1,opt,name=Version,proto3" json:"Version,omitempty"`
+	Commit        string                 `protobuf:"bytes,2,opt,name=Commit,proto3" json:"Commit,omitempty"`
+	Dirty         string                 `protobuf:"bytes,3,opt,name=Dirty,proto3" json:"Dirty,omitempty"`
+	CompiledAt    string                 `protobuf:"bytes,4,opt,name=CompiledAt,proto3" json:"CompiledAt,omitempty"`
+	OS            string                 `protobuf:"bytes,5,opt,name=OS,proto3" json:"OS,omitempty"`
+	Arch          string                 `protobuf:"bytes,6,opt,name=Arch,proto3" json:"Arch,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Version) Reset() {
+	*x = Version{}
+	mi := &file_client_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Version) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Version) ProtoMessage() {}
+
+func (x *Version) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Version.ProtoReflect.Descriptor instead.
+func (*Version) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Version) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+func (x *Version) GetCommit() string {
+	if x != nil {
+		return x.Commit
+	}
+	return ""
+}
+
+func (x *Version) GetDirty() string {
+	if x != nil {
+		return x.Dirty
+	}
+	return ""
+}
+
+func (x *Version) GetCompiledAt() string {
+	if x != nil {
+		return x.CompiledAt
+	}
+	return ""
+}
+
+func (x *Version) GetOS() string {
+	if x != nil {
+		return x.OS
+	}
+	return ""
+}
+
+func (x *Version) GetArch() string {
+	if x != nil {
+		return x.Arch
+	}
+	return ""
+}
+
+type Job struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ID            int32                  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Description   string                 `protobuf:"bytes,3,opt,name=Description,proto3" json:"Description,omitempty"`
+	Protocol      string                 `protobuf:"bytes,4,opt,name=Protocol,proto3" json:"Protocol,omitempty"`
+	Port          int32                  `protobuf:"varint,5,opt,name=Port,proto3" json:"Port,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Job) Reset() {
+	*x = Job{}
+	mi := &file_client_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Job) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Job) ProtoMessage() {}
+
+func (x *Job) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Job.ProtoReflect.Descriptor instead.
+func (*Job) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *Job) GetID() int32 {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
+func (x *Job) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Job) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Job) GetProtocol() string {
+	if x != nil {
+		return x.Protocol
+	}
+	return ""
+}
+
+func (x *Job) GetPort() int32 {
+	if x != nil {
+		return x.Port
+	}
+	return 0
+}
+
+type Jobs struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Activate      []*Job                 `protobuf:"bytes,1,rep,name=Activate,proto3" json:"Activate,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Jobs) Reset() {
+	*x = Jobs{}
+	mi := &file_client_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Jobs) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Jobs) ProtoMessage() {}
+
+func (x *Jobs) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Jobs.ProtoReflect.Descriptor instead.
+func (*Jobs) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *Jobs) GetActivate() []*Job {
+	if x != nil {
+		return x.Activate
+	}
+	return nil
+}
+
+type KillJobReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ID            uint32                 `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *KillJobReq) Reset() {
+	*x = KillJobReq{}
+	mi := &file_client_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KillJobReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KillJobReq) ProtoMessage() {}
+
+func (x *KillJobReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KillJobReq.ProtoReflect.Descriptor instead.
+func (*KillJobReq) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *KillJobReq) GetID() uint32 {
+	if x != nil {
+		return x.ID
+	}
+	return 0
+}
+
 var File_client_proto protoreflect.FileDescriptor
 
 const file_client_proto_rawDesc = "" +
@@ -327,7 +575,27 @@ const file_client_proto_rawDesc = "" +
 	"\x06client\x12\x0e\n" +
 	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x12\n" +
 	"\x04Name\x18\x02 \x01(\tR\x04Name\x12.\n" +
-	"\bOperator\x18\x03 \x01(\v2\x12.clientpb.OperatorR\bOperatorB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
+	"\bOperator\x18\x03 \x01(\v2\x12.clientpb.OperatorR\bOperator\"\x95\x01\n" +
+	"\aversion\x12\x18\n" +
+	"\aVersion\x18\x01 \x01(\tR\aVersion\x12\x16\n" +
+	"\x06Commit\x18\x02 \x01(\tR\x06Commit\x12\x14\n" +
+	"\x05Dirty\x18\x03 \x01(\tR\x05Dirty\x12\x1e\n" +
+	"\n" +
+	"CompiledAt\x18\x04 \x01(\tR\n" +
+	"CompiledAt\x12\x0e\n" +
+	"\x02OS\x18\x05 \x01(\tR\x02OS\x12\x12\n" +
+	"\x04Arch\x18\x06 \x01(\tR\x04Arch\"{\n" +
+	"\x03Job\x12\x0e\n" +
+	"\x02ID\x18\x01 \x01(\x05R\x02ID\x12\x12\n" +
+	"\x04Name\x18\x02 \x01(\tR\x04Name\x12 \n" +
+	"\vDescription\x18\x03 \x01(\tR\vDescription\x12\x1a\n" +
+	"\bProtocol\x18\x04 \x01(\tR\bProtocol\x12\x12\n" +
+	"\x04Port\x18\x05 \x01(\x05R\x04Port\"1\n" +
+	"\x04Jobs\x12)\n" +
+	"\bActivate\x18\x01 \x03(\v2\r.clientpb.JobR\bActivate\"\x1c\n" +
+	"\n" +
+	"KillJobReq\x12\x0e\n" +
+	"\x02ID\x18\x01 \x01(\rR\x02IDB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
 
 var (
 	file_client_proto_rawDescOnce sync.Once
@@ -341,23 +609,28 @@ func file_client_proto_rawDescGZIP() []byte {
 	return file_client_proto_rawDescData
 }
 
-var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_client_proto_goTypes = []any{
 	(*MTLSListenerReq)(nil), // 0: clientpb.MTLSListenerReq
 	(*ListenerJob)(nil),     // 1: clientpb.ListenerJob
 	(*Event)(nil),           // 2: clientpb.Event
 	(*Operator)(nil),        // 3: clientpb.Operator
 	(*Client)(nil),          // 4: clientpb.client
+	(*Version)(nil),         // 5: clientpb.version
+	(*Job)(nil),             // 6: clientpb.Job
+	(*Jobs)(nil),            // 7: clientpb.Jobs
+	(*KillJobReq)(nil),      // 8: clientpb.KillJobReq
 }
 var file_client_proto_depIdxs = []int32{
 	0, // 0: clientpb.ListenerJob.MTLSConf:type_name -> clientpb.MTLSListenerReq
 	4, // 1: clientpb.Event.Client:type_name -> clientpb.client
 	3, // 2: clientpb.client.Operator:type_name -> clientpb.Operator
-	3, // [3:3] is the sub-list for method output_type
-	3, // [3:3] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	6, // 3: clientpb.Jobs.Activate:type_name -> clientpb.Job
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_client_proto_init() }
@@ -371,7 +644,7 @@ func file_client_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_client_proto_rawDesc), len(file_client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
