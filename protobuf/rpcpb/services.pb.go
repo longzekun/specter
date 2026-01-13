@@ -26,30 +26,46 @@ var File_rpcpb_services_proto protoreflect.FileDescriptor
 
 const file_rpcpb_services_proto_rawDesc = "" +
 	"\n" +
-	"\x14rpcpb/services.proto\x12\x05rpcpb\x1a\x15commonpb/common.proto\x1a\x15clientpb/client.proto2\xb3\x01\n" +
+	"\x14rpcpb/services.proto\x12\x05rpcpb\x1a\x15commonpb/common.proto\x1a\x15clientpb/client.proto2\xfc\x02\n" +
 	"\n" +
 	"SpecterRPC\x12E\n" +
-	"\x11StartMTLSListener\x12\x19.clientpb.MTLSListenerReq\x1a\x15.clientpb.ListenerJob\x12,\n" +
+	"\x11StartMTLSListener\x12\x19.clientpb.MTLSListenerReq\x1a\x15.clientpb.ListenerJob\x12-\n" +
+	"\n" +
+	"GetAllJobs\x12\x0f.commonpb.Empty\x1a\x0e.clientpb.Jobs\x12/\n" +
+	"\vKillAllJobs\x12\x0f.commonpb.Empty\x1a\x0f.commonpb.Empty\x120\n" +
+	"\aKillJob\x12\x14.clientpb.KillJobReq\x1a\x0f.commonpb.Empty\x12,\n" +
 	"\x06Events\x12\x0f.commonpb.Empty\x1a\x0f.clientpb.Event0\x01\x120\n" +
 	"\n" +
-	"GetVersion\x12\x0f.commonpb.Empty\x1a\x11.clientpb.versionB-Z+github.com/longzekun/specter/protobuf/rpcpbb\x06proto3"
+	"GetVersion\x12\x0f.commonpb.Empty\x1a\x11.clientpb.version\x125\n" +
+	"\x0eGetAllSessions\x12\x0f.commonpb.Empty\x1a\x12.clientpb.SessionsB-Z+github.com/longzekun/specter/protobuf/rpcpbb\x06proto3"
 
 var file_rpcpb_services_proto_goTypes = []any{
 	(*clientpb.MTLSListenerReq)(nil), // 0: clientpb.MTLSListenerReq
 	(*commonpb.Empty)(nil),           // 1: commonpb.Empty
-	(*clientpb.ListenerJob)(nil),     // 2: clientpb.ListenerJob
-	(*clientpb.Event)(nil),           // 3: clientpb.Event
-	(*clientpb.Version)(nil),         // 4: clientpb.version
+	(*clientpb.KillJobReq)(nil),      // 2: clientpb.KillJobReq
+	(*clientpb.ListenerJob)(nil),     // 3: clientpb.ListenerJob
+	(*clientpb.Jobs)(nil),            // 4: clientpb.Jobs
+	(*clientpb.Event)(nil),           // 5: clientpb.Event
+	(*clientpb.Version)(nil),         // 6: clientpb.version
+	(*clientpb.Sessions)(nil),        // 7: clientpb.Sessions
 }
 var file_rpcpb_services_proto_depIdxs = []int32{
 	0, // 0: rpcpb.SpecterRPC.StartMTLSListener:input_type -> clientpb.MTLSListenerReq
-	1, // 1: rpcpb.SpecterRPC.Events:input_type -> commonpb.Empty
-	1, // 2: rpcpb.SpecterRPC.GetVersion:input_type -> commonpb.Empty
-	2, // 3: rpcpb.SpecterRPC.StartMTLSListener:output_type -> clientpb.ListenerJob
-	3, // 4: rpcpb.SpecterRPC.Events:output_type -> clientpb.Event
-	4, // 5: rpcpb.SpecterRPC.GetVersion:output_type -> clientpb.version
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
+	1, // 1: rpcpb.SpecterRPC.GetAllJobs:input_type -> commonpb.Empty
+	1, // 2: rpcpb.SpecterRPC.KillAllJobs:input_type -> commonpb.Empty
+	2, // 3: rpcpb.SpecterRPC.KillJob:input_type -> clientpb.KillJobReq
+	1, // 4: rpcpb.SpecterRPC.Events:input_type -> commonpb.Empty
+	1, // 5: rpcpb.SpecterRPC.GetVersion:input_type -> commonpb.Empty
+	1, // 6: rpcpb.SpecterRPC.GetAllSessions:input_type -> commonpb.Empty
+	3, // 7: rpcpb.SpecterRPC.StartMTLSListener:output_type -> clientpb.ListenerJob
+	4, // 8: rpcpb.SpecterRPC.GetAllJobs:output_type -> clientpb.Jobs
+	1, // 9: rpcpb.SpecterRPC.KillAllJobs:output_type -> commonpb.Empty
+	1, // 10: rpcpb.SpecterRPC.KillJob:output_type -> commonpb.Empty
+	5, // 11: rpcpb.SpecterRPC.Events:output_type -> clientpb.Event
+	6, // 12: rpcpb.SpecterRPC.GetVersion:output_type -> clientpb.version
+	7, // 13: rpcpb.SpecterRPC.GetAllSessions:output_type -> clientpb.Sessions
+	7, // [7:14] is the sub-list for method output_type
+	0, // [0:7] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name

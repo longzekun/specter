@@ -17,5 +17,9 @@ service SpecterRPC{
 
   rpc GetVersion(commonpb.Empty) returns (clientpb.version);
 
+  //  specter
+  rpc GetAllSessions(commonpb.Empty) returns (clientpb.Sessions);
+  rpc KillSession(clientpb.KillReq) returns (commonpb.Empty);
+
 
 }

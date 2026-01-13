@@ -27,6 +27,8 @@ const (
 	SpecterRPC_KillJob_FullMethodName           = "/rpcpb.SpecterRPC/KillJob"
 	SpecterRPC_Events_FullMethodName            = "/rpcpb.SpecterRPC/Events"
 	SpecterRPC_GetVersion_FullMethodName        = "/rpcpb.SpecterRPC/GetVersion"
+	SpecterRPC_GetAllSessions_FullMethodName    = "/rpcpb.SpecterRPC/GetAllSessions"
+	SpecterRPC_KillSession_FullMethodName       = "/rpcpb.SpecterRPC/KillSession"
 )
 
 // SpecterRPCClient is the client API for SpecterRPC service.
@@ -40,6 +42,9 @@ type SpecterRPCClient interface {
 	KillJob(ctx context.Context, in *clientpb.KillJobReq, opts ...grpc.CallOption) (*commonpb.Empty, error)
 	Events(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (grpc.ServerStreamingClient[clientpb.Event], error)
 	GetVersion(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Version, error)
+	// specter
+	GetAllSessions(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Sessions, error)
+	KillSession(ctx context.Context, in *clientpb.KillReq, opts ...grpc.CallOption) (*commonpb.Empty, error)
 }
 
 type specterRPCClient struct {
@@ -119,6 +124,26 @@ func (c *specterRPCClient) GetVersion(ctx context.Context, in *commonpb.Empty, o
 	return out, nil
 }
 
+func (c *specterRPCClient) GetAllSessions(ctx context.Context, in *commonpb.Empty, opts ...grpc.CallOption) (*clientpb.Sessions, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(clientpb.Sessions)
+	err := c.cc.Invoke(ctx, SpecterRPC_GetAllSessions_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *specterRPCClient) KillSession(ctx context.Context, in *clientpb.KillReq, opts ...grpc.CallOption) (*commonpb.Empty, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(commonpb.Empty)
+	err := c.cc.Invoke(ctx, SpecterRPC_KillSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SpecterRPCServer is the server API for SpecterRPC service.
 // All implementations must embed UnimplementedSpecterRPCServer
 // for forward compatibility.
@@ -130,6 +155,9 @@ type SpecterRPCServer interface {
 	KillJob(context.Context, *clientpb.KillJobReq) (*commonpb.Empty, error)
 	Events(*commonpb.Empty, grpc.ServerStreamingServer[clientpb.Event]) error
 	GetVersion(context.Context, *commonpb.Empty) (*clientpb.Version, error)
+	// specter
+	GetAllSessions(context.Context, *commonpb.Empty) (*clientpb.Sessions, error)
+	KillSession(context.Context, *clientpb.KillReq) (*commonpb.Empty, error)
 	mustEmbedUnimplementedSpecterRPCServer()
 }
 
@@ -157,6 +185,12 @@ func (UnimplementedSpecterRPCServer) Events(*commonpb.Empty, grpc.ServerStreamin
 }
 func (UnimplementedSpecterRPCServer) GetVersion(context.Context, *commonpb.Empty) (*clientpb.Version, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetVersion not implemented")
+}
+func (UnimplementedSpecterRPCServer) GetAllSessions(context.Context, *commonpb.Empty) (*clientpb.Sessions, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetAllSessions not implemented")
+}
+func (UnimplementedSpecterRPCServer) KillSession(context.Context, *clientpb.KillReq) (*commonpb.Empty, error) {
+	return nil, status.Error(codes.Unimplemented, "method KillSession not implemented")
 }
 func (UnimplementedSpecterRPCServer) mustEmbedUnimplementedSpecterRPCServer() {}
 func (UnimplementedSpecterRPCServer) testEmbeddedByValue()                    {}
@@ -280,6 +314,42 @@ func _SpecterRPC_GetVersion_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpecterRPC_GetAllSessions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(commonpb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpecterRPCServer).GetAllSessions(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpecterRPC_GetAllSessions_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpecterRPCServer).GetAllSessions(ctx, req.(*commonpb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SpecterRPC_KillSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(clientpb.KillReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpecterRPCServer).KillSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SpecterRPC_KillSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpecterRPCServer).KillSession(ctx, req.(*clientpb.KillReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SpecterRPC_ServiceDesc is the grpc.ServiceDesc for SpecterRPC service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -306,6 +376,14 @@ var SpecterRPC_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetVersion",
 			Handler:    _SpecterRPC_GetVersion_Handler,
+		},
+		{
+			MethodName: "GetAllSessions",
+			Handler:    _SpecterRPC_GetAllSessions_Handler,
+		},
+		{
+			MethodName: "KillSession",
+			Handler:    _SpecterRPC_KillSession_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

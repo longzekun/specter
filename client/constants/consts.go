@@ -6,7 +6,8 @@ const (
 )
 
 const (
-	MtlsStr = "mtls"
+	MtlsStr     = "mtls"
+	SessionsStr = "sessions"
 )
 
 // Event Type
@@ -20,9 +21,14 @@ const (
 	MultiplayerHelpGroup = "multiplayer"
 	GenericHelpGroup     = "Generic"
 	NetworkHelpGroup     = "Network"
+	SpecterHelpGroup     = "Specter"
 )
 
 // command
 const (
 	MultiplayerModeStr = "multiplayer"
+)
+
+const (
+	SessionQuit = 1
 )

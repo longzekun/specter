@@ -3,6 +3,7 @@ package command
 import (
 	"github.com/longzekun/specter/client/command/exit"
 	"github.com/longzekun/specter/client/command/jobs"
+	"github.com/longzekun/specter/client/command/sessions"
 	client "github.com/longzekun/specter/client/console"
 	"github.com/longzekun/specter/client/constants"
 	"github.com/reeflective/console"
@@ -36,6 +37,10 @@ func ServerCommands(con *client.SpecterClient, serverOnlyCommands func() []*cobr
 		bind(
 			constants.NetworkHelpGroup,
 			jobs.Command,
+		)
+
+		bind(constants.SpecterHelpGroup,
+			sessions.Command,
 		)
 
 		server.InitDefaultHelpCmd()

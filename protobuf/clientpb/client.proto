@@ -54,3 +54,30 @@ message Jobs {
 message KillJobReq{
   uint32 ID = 1;
 }
+
+message Session {
+  string ID=1;
+  string Name = 2;
+  string Hostname = 3;
+  string Username = 4;
+  string UUID = 5;
+  string UID = 6;
+  string GID = 7;
+  string OS = 8;
+  string Version = 9;
+  string Arch = 10;
+  string PID = 11;
+  string Filename = 12;
+  string RemoteAddress = 13;
+  string TransportType = 14;
+  int64 LastMessageTime = 15;
+  bool Health = 16;
+}
+
+message Sessions {
+  repeated Session Sessions = 1;
+}
+
+message KillReq {
+  string SessionID = 1;
+}

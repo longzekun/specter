@@ -553,6 +553,258 @@ func (x *KillJobReq) GetID() uint32 {
 	return 0
 }
 
+type Session struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	ID              string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Name            string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
+	Hostname        string                 `protobuf:"bytes,3,opt,name=Hostname,proto3" json:"Hostname,omitempty"`
+	Username        string                 `protobuf:"bytes,4,opt,name=Username,proto3" json:"Username,omitempty"`
+	UUID            string                 `protobuf:"bytes,5,opt,name=UUID,proto3" json:"UUID,omitempty"`
+	UID             string                 `protobuf:"bytes,6,opt,name=UID,proto3" json:"UID,omitempty"`
+	GID             string                 `protobuf:"bytes,7,opt,name=GID,proto3" json:"GID,omitempty"`
+	OS              string                 `protobuf:"bytes,8,opt,name=OS,proto3" json:"OS,omitempty"`
+	Version         string                 `protobuf:"bytes,9,opt,name=Version,proto3" json:"Version,omitempty"`
+	Arch            string                 `protobuf:"bytes,10,opt,name=Arch,proto3" json:"Arch,omitempty"`
+	PID             string                 `protobuf:"bytes,11,opt,name=PID,proto3" json:"PID,omitempty"`
+	Filename        string                 `protobuf:"bytes,12,opt,name=Filename,proto3" json:"Filename,omitempty"`
+	RemoteAddress   string                 `protobuf:"bytes,13,opt,name=RemoteAddress,proto3" json:"RemoteAddress,omitempty"`
+	TransportType   string                 `protobuf:"bytes,14,opt,name=TransportType,proto3" json:"TransportType,omitempty"`
+	LastMessageTime int64                  `protobuf:"varint,15,opt,name=LastMessageTime,proto3" json:"LastMessageTime,omitempty"`
+	Health          bool                   `protobuf:"varint,16,opt,name=Health,proto3" json:"Health,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *Session) Reset() {
+	*x = Session{}
+	mi := &file_client_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Session) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Session) ProtoMessage() {}
+
+func (x *Session) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Session.ProtoReflect.Descriptor instead.
+func (*Session) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *Session) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *Session) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Session) GetHostname() string {
+	if x != nil {
+		return x.Hostname
+	}
+	return ""
+}
+
+func (x *Session) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *Session) GetUUID() string {
+	if x != nil {
+		return x.UUID
+	}
+	return ""
+}
+
+func (x *Session) GetUID() string {
+	if x != nil {
+		return x.UID
+	}
+	return ""
+}
+
+func (x *Session) GetGID() string {
+	if x != nil {
+		return x.GID
+	}
+	return ""
+}
+
+func (x *Session) GetOS() string {
+	if x != nil {
+		return x.OS
+	}
+	return ""
+}
+
+func (x *Session) GetVersion() string {
+	if x != nil {
+		return x.Version
+	}
+	return ""
+}
+
+func (x *Session) GetArch() string {
+	if x != nil {
+		return x.Arch
+	}
+	return ""
+}
+
+func (x *Session) GetPID() string {
+	if x != nil {
+		return x.PID
+	}
+	return ""
+}
+
+func (x *Session) GetFilename() string {
+	if x != nil {
+		return x.Filename
+	}
+	return ""
+}
+
+func (x *Session) GetRemoteAddress() string {
+	if x != nil {
+		return x.RemoteAddress
+	}
+	return ""
+}
+
+func (x *Session) GetTransportType() string {
+	if x != nil {
+		return x.TransportType
+	}
+	return ""
+}
+
+func (x *Session) GetLastMessageTime() int64 {
+	if x != nil {
+		return x.LastMessageTime
+	}
+	return 0
+}
+
+func (x *Session) GetHealth() bool {
+	if x != nil {
+		return x.Health
+	}
+	return false
+}
+
+type Sessions struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sessions      []*Session             `protobuf:"bytes,1,rep,name=Sessions,proto3" json:"Sessions,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Sessions) Reset() {
+	*x = Sessions{}
+	mi := &file_client_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Sessions) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Sessions) ProtoMessage() {}
+
+func (x *Sessions) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Sessions.ProtoReflect.Descriptor instead.
+func (*Sessions) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *Sessions) GetSessions() []*Session {
+	if x != nil {
+		return x.Sessions
+	}
+	return nil
+}
+
+type KillReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	SessionID     string                 `protobuf:"bytes,1,opt,name=SessionID,proto3" json:"SessionID,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *KillReq) Reset() {
+	*x = KillReq{}
+	mi := &file_client_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *KillReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*KillReq) ProtoMessage() {}
+
+func (x *KillReq) ProtoReflect() protoreflect.Message {
+	mi := &file_client_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use KillReq.ProtoReflect.Descriptor instead.
+func (*KillReq) Descriptor() ([]byte, []int) {
+	return file_client_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *KillReq) GetSessionID() string {
+	if x != nil {
+		return x.SessionID
+	}
+	return ""
+}
+
 var File_client_proto protoreflect.FileDescriptor
 
 const file_client_proto_rawDesc = "" +
@@ -595,7 +847,29 @@ const file_client_proto_rawDesc = "" +
 	"\bActivate\x18\x01 \x03(\v2\r.clientpb.JobR\bActivate\"\x1c\n" +
 	"\n" +
 	"KillJobReq\x12\x0e\n" +
-	"\x02ID\x18\x01 \x01(\rR\x02IDB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
+	"\x02ID\x18\x01 \x01(\rR\x02ID\"\x97\x03\n" +
+	"\aSession\x12\x0e\n" +
+	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x12\n" +
+	"\x04Name\x18\x02 \x01(\tR\x04Name\x12\x1a\n" +
+	"\bHostname\x18\x03 \x01(\tR\bHostname\x12\x1a\n" +
+	"\bUsername\x18\x04 \x01(\tR\bUsername\x12\x12\n" +
+	"\x04UUID\x18\x05 \x01(\tR\x04UUID\x12\x10\n" +
+	"\x03UID\x18\x06 \x01(\tR\x03UID\x12\x10\n" +
+	"\x03GID\x18\a \x01(\tR\x03GID\x12\x0e\n" +
+	"\x02OS\x18\b \x01(\tR\x02OS\x12\x18\n" +
+	"\aVersion\x18\t \x01(\tR\aVersion\x12\x12\n" +
+	"\x04Arch\x18\n" +
+	" \x01(\tR\x04Arch\x12\x10\n" +
+	"\x03PID\x18\v \x01(\tR\x03PID\x12\x1a\n" +
+	"\bFilename\x18\f \x01(\tR\bFilename\x12$\n" +
+	"\rRemoteAddress\x18\r \x01(\tR\rRemoteAddress\x12$\n" +
+	"\rTransportType\x18\x0e \x01(\tR\rTransportType\x12(\n" +
+	"\x0fLastMessageTime\x18\x0f \x01(\x03R\x0fLastMessageTime\x12\x16\n" +
+	"\x06Health\x18\x10 \x01(\bR\x06Health\"9\n" +
+	"\bSessions\x12-\n" +
+	"\bSessions\x18\x01 \x03(\v2\x11.clientpb.SessionR\bSessions\"'\n" +
+	"\aKillReq\x12\x1c\n" +
+	"\tSessionID\x18\x01 \x01(\tR\tSessionIDB0Z.github.com/longzekun/specter/protobuf/clientpbb\x06proto3"
 
 var (
 	file_client_proto_rawDescOnce sync.Once
@@ -609,7 +883,7 @@ func file_client_proto_rawDescGZIP() []byte {
 	return file_client_proto_rawDescData
 }
 
-var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_client_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_client_proto_goTypes = []any{
 	(*MTLSListenerReq)(nil), // 0: clientpb.MTLSListenerReq
 	(*ListenerJob)(nil),     // 1: clientpb.ListenerJob
@@ -620,17 +894,21 @@ var file_client_proto_goTypes = []any{
 	(*Job)(nil),             // 6: clientpb.Job
 	(*Jobs)(nil),            // 7: clientpb.Jobs
 	(*KillJobReq)(nil),      // 8: clientpb.KillJobReq
+	(*Session)(nil),         // 9: clientpb.Session
+	(*Sessions)(nil),        // 10: clientpb.Sessions
+	(*KillReq)(nil),         // 11: clientpb.KillReq
 }
 var file_client_proto_depIdxs = []int32{
 	0, // 0: clientpb.ListenerJob.MTLSConf:type_name -> clientpb.MTLSListenerReq
 	4, // 1: clientpb.Event.Client:type_name -> clientpb.client
 	3, // 2: clientpb.client.Operator:type_name -> clientpb.Operator
 	6, // 3: clientpb.Jobs.Activate:type_name -> clientpb.Job
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	9, // 4: clientpb.Sessions.Sessions:type_name -> clientpb.Session
+	5, // [5:5] is the sub-list for method output_type
+	5, // [5:5] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_client_proto_init() }
@@ -644,7 +922,7 @@ func file_client_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_client_proto_rawDesc), len(file_client_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
