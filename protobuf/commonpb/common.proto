@@ -3,3 +3,12 @@ package commonpb;
 option go_package = "github.com/longzekun/specter/protobuf/commonpb";
 
 message Empty {}
+
+message Request {
+  string ID = 1;
+  uint32 Type = 2;
+}
+
+message Response {
+  bytes Data =  1;
+}

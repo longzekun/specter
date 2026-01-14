@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.11
 // 	protoc        v3.21.12
-// source: commonpb/common.proto
+// source: common.proto
 
 package commonpb
 
@@ -29,7 +29,7 @@ type Empty struct {
 
 func (x *Empty) Reset() {
 	*x = Empty{}
-	mi := &file_commonpb_common_proto_msgTypes[0]
+	mi := &file_common_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -41,7 +41,7 @@ func (x *Empty) String() string {
 func (*Empty) ProtoMessage() {}
 
 func (x *Empty) ProtoReflect() protoreflect.Message {
-	mi := &file_commonpb_common_proto_msgTypes[0]
+	mi := &file_common_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -54,33 +54,136 @@ func (x *Empty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Empty.ProtoReflect.Descriptor instead.
 func (*Empty) Descriptor() ([]byte, []int) {
-	return file_commonpb_common_proto_rawDescGZIP(), []int{0}
+	return file_common_proto_rawDescGZIP(), []int{0}
 }
 
-var File_commonpb_common_proto protoreflect.FileDescriptor
+type Request struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Type          uint32                 `protobuf:"varint,2,opt,name=Type,proto3" json:"Type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
 
-const file_commonpb_common_proto_rawDesc = "" +
+func (x *Request) Reset() {
+	*x = Request{}
+	mi := &file_common_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Request) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Request) ProtoMessage() {}
+
+func (x *Request) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Request.ProtoReflect.Descriptor instead.
+func (*Request) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *Request) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *Request) GetType() uint32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
+type Response struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Data          []byte                 `protobuf:"bytes,1,opt,name=Data,proto3" json:"Data,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Response) Reset() {
+	*x = Response{}
+	mi := &file_common_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Response) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Response) ProtoMessage() {}
+
+func (x *Response) ProtoReflect() protoreflect.Message {
+	mi := &file_common_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Response.ProtoReflect.Descriptor instead.
+func (*Response) Descriptor() ([]byte, []int) {
+	return file_common_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Response) GetData() []byte {
+	if x != nil {
+		return x.Data
+	}
+	return nil
+}
+
+var File_common_proto protoreflect.FileDescriptor
+
+const file_common_proto_rawDesc = "" +
 	"\n" +
-	"\x15commonpb/common.proto\x12\bclientpb\"\a\n" +
-	"\x05EmptyB0Z.github.com/longzekun/specter/protobuf/commonpbb\x06proto3"
+	"\fcommon.proto\x12\bcommonpb\"\a\n" +
+	"\x05Empty\"-\n" +
+	"\aRequest\x12\x0e\n" +
+	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\x12\n" +
+	"\x04Type\x18\x02 \x01(\rR\x04Type\"\x1e\n" +
+	"\bResponse\x12\x12\n" +
+	"\x04Data\x18\x01 \x01(\fR\x04DataB0Z.github.com/longzekun/specter/protobuf/commonpbb\x06proto3"
 
 var (
-	file_commonpb_common_proto_rawDescOnce sync.Once
-	file_commonpb_common_proto_rawDescData []byte
+	file_common_proto_rawDescOnce sync.Once
+	file_common_proto_rawDescData []byte
 )
 
-func file_commonpb_common_proto_rawDescGZIP() []byte {
-	file_commonpb_common_proto_rawDescOnce.Do(func() {
-		file_commonpb_common_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_commonpb_common_proto_rawDesc), len(file_commonpb_common_proto_rawDesc)))
+func file_common_proto_rawDescGZIP() []byte {
+	file_common_proto_rawDescOnce.Do(func() {
+		file_common_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)))
 	})
-	return file_commonpb_common_proto_rawDescData
+	return file_common_proto_rawDescData
 }
 
-var file_commonpb_common_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_commonpb_common_proto_goTypes = []any{
-	(*Empty)(nil), // 0: clientpb.Empty
+var file_common_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_common_proto_goTypes = []any{
+	(*Empty)(nil),    // 0: commonpb.Empty
+	(*Request)(nil),  // 1: commonpb.Request
+	(*Response)(nil), // 2: commonpb.Response
 }
-var file_commonpb_common_proto_depIdxs = []int32{
+var file_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -88,26 +191,26 @@ var file_commonpb_common_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_commonpb_common_proto_init() }
-func file_commonpb_common_proto_init() {
-	if File_commonpb_common_proto != nil {
+func init() { file_common_proto_init() }
+func file_common_proto_init() {
+	if File_common_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_commonpb_common_proto_rawDesc), len(file_commonpb_common_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_common_proto_rawDesc), len(file_common_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_commonpb_common_proto_goTypes,
-		DependencyIndexes: file_commonpb_common_proto_depIdxs,
-		MessageInfos:      file_commonpb_common_proto_msgTypes,
+		GoTypes:           file_common_proto_goTypes,
+		DependencyIndexes: file_common_proto_depIdxs,
+		MessageInfos:      file_common_proto_msgTypes,
 	}.Build()
-	File_commonpb_common_proto = out.File
-	file_commonpb_common_proto_goTypes = nil
-	file_commonpb_common_proto_depIdxs = nil
+	File_common_proto = out.File
+	file_common_proto_goTypes = nil
+	file_common_proto_depIdxs = nil
 }

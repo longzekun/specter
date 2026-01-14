@@ -10,6 +10,11 @@ const (
 	SessionsStr = "sessions"
 )
 
+// implant
+const (
+	ScreenShotStr = "screenshot"
+)
+
 // Event Type
 const (
 	ClientJoinType uint32 = iota
@@ -22,11 +27,13 @@ const (
 	GenericHelpGroup     = "Generic"
 	NetworkHelpGroup     = "Network"
 	SpecterHelpGroup     = "Specter"
+	ImplantInfoHelpGroup = "ImplantInfo"
 )
 
 // command
 const (
 	MultiplayerModeStr = "multiplayer"
+	UseStr             = "use"
 )
 
 const (

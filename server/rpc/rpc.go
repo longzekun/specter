@@ -8,6 +8,12 @@ import (
 	"github.com/longzekun/specter/protobuf/rpcpb"
 )
 
+type GeneralRequest interface {
+}
+
+type GeneralResponse interface {
+}
+
 type Server struct {
 	rpcpb.UnimplementedSpecterRPCServer
 }

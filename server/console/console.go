@@ -2,6 +2,7 @@ package console
 
 import (
 	"context"
+
 	"github.com/longzekun/specter/client/command"
 	"github.com/longzekun/specter/client/console"
 	"github.com/longzekun/specter/client/constants"
@@ -38,7 +39,7 @@ func Start() {
 	localRPC := rpcpb.NewSpecterRPCClient(conn)
 	con := console.NewConsole(false)
 
-	console.StartClient(con, localRPC, command.ServerCommands(con, serverOnlyCommands), nil)
+	console.StartClient(con, localRPC, command.ServerCommands(con, serverOnlyCommands), command.ImplantCommands(con))
 }
 
 func serverOnlyCommands() (commands []*cobra.Command) {

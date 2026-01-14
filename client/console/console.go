@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/longzekun/specter/client/constants"
+	"github.com/longzekun/specter/protobuf/clientpb"
 	"github.com/longzekun/specter/protobuf/commonpb"
 	"github.com/longzekun/specter/protobuf/rpcpb"
 	"github.com/reeflective/console"
@@ -18,17 +19,21 @@ import (
 )
 
 type SpecterClient struct {
-	Console  *console.Console
-	IsServer bool
-	RPC      rpcpb.SpecterRPCClient
-	printf   func(format string, args ...any) (int, error)
+	Console      *console.Console
+	IsServer     bool
+	RPC          rpcpb.SpecterRPCClient
+	printf       func(format string, args ...any) (int, error)
+	ActiveTarget *ActiveTarget
 }
 
 func NewConsole(isServer bool) *SpecterClient {
 	c := &SpecterClient{
-		Console:  console.New("specter"),
-		IsServer: isServer,
+		Console:      console.New("specter"),
+		IsServer:     isServer,
+		ActiveTarget: &ActiveTarget{},
 	}
+
+	c.ActiveTarget.con = c
 
 	//	通用配置
 	c.Console.NewlineBefore = true
@@ -40,6 +45,11 @@ func NewConsole(isServer bool) *SpecterClient {
 	server.Prompt().Primary = c.Prompt
 	server.AddInterrupt(readline.ErrInterrupt, c.exitConsole)
 
+	implant := c.Console.NewMenu(constants.ImplantMenu)
+	implant.Short = "Implant commands"
+	implant.Prompt().Primary = c.Prompt
+	implant.AddInterrupt(io.EOF, c.exitConsole)
+
 	c.Console.SetPrintLogo(func(_ *console.Console) {
 		c.PrintLogo()
 	})
@@ -48,8 +58,12 @@ func NewConsole(isServer bool) *SpecterClient {
 }
 
 func (c *SpecterClient) Prompt() string {
-	//判断当前处于激活状态的是server还是implant,选择激活的menu
-	return "specter >"
+	prompt := Underline + "specter" + Normal
+	if c.ActiveTarget.GetSession() != nil {
+		prompt += fmt.Sprintf(Bold+ColorRed+" (%s)%s", c.ActiveTarget.GetSession().ID, Normal)
+	}
+	prompt += " > "
+	return Clearln + prompt
 }
 
 // exitConsole - 退出终端执行
@@ -124,6 +138,12 @@ const (
 	ColorPurple = "\033[35m" // 紫色
 	ColorCyan   = "\033[36m" // 青色
 	ColorWhite  = "\033[37m" // 白色
+	Underline   = "\033[4m"
+	Bold        = "\033[1m"
+	Normal      = "\033[0m"
+	Clearln     = "\r\x1b[2K"
+	UpN         = "\033[%dA"
+	DownN       = "\033[%dB"
 )
 
 var asciiSpecterLogo = []string{
@@ -186,4 +206,24 @@ _/_/_/    _/        _/_/_/_/    _/_/_/      _/      _/_/_/_/  _/    _/
        _|  _|        _|        _|            _|      _|        _|    _|  
  _|_|_|    _|        _|_|_|_|    _|_|_|      _|      _|_|_|_|  _|    _|   
 `,
+}
+
+type ActiveTarget struct {
+	session *clientpb.Session
+	con     *SpecterClient
+}
+
+func (s *ActiveTarget) GetSession() *clientpb.Session {
+	return s.session
+}
+
+func (s *ActiveTarget) SetSession(session *clientpb.Session) {
+	if s.session != nil {
+		return
+	}
+	s.session = session
+
+	if s.con.Console.ActiveMenu().Name() != constants.ImplantMenu {
+		s.con.Console.SwitchMenu(constants.ImplantMenu)
+	}
 }
